@@ -1,9 +1,4 @@
-import {
-  ActionPanel,
-  CopyToClipboardAction,
-  Detail,
-  OpenInBrowserAction,
-} from "@raycast/api"
+import { Action, ActionPanel, Detail } from "@raycast/api"
 
 import { CompactGroup } from "@models"
 
@@ -33,8 +28,8 @@ export function ReadmeDetail({ group }: Props): JSX.Element {
 function ActionsSection({ url }: { url: string }): JSX.Element {
   return (
     <ActionPanel.Section>
-      <OpenInBrowserAction url={url} />
-      <CopyToClipboardAction title="Copy README URL" content={url} />
+      <Action.OpenInBrowser url={url} />
+      <Action.CopyToClipboard title="Copy README URL" content={url} />
     </ActionPanel.Section>
   )
 }

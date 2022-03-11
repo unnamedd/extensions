@@ -19,10 +19,10 @@ export function FiltersActionPanel({ filter, onFilter }: Props): JSX.Element {
   const { languages } = useLanguages()
 
   return (
-    <ActionPanel title="Filter by">
+    <ActionPanel.Section title="Filter by">
       {filter != null && <ClearFilterActionItem onFilter={onFilter} />}
       <TypeActionSubmenu onFilter={onFilter} />
       <LanguagesActionSubmenu languages={languages} onFilter={onFilter} />
-    </ActionPanel>
+    </ActionPanel.Section>
   )
 }

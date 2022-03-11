@@ -1,13 +1,8 @@
-import {
-  ActionPanel,
-  CopyToClipboardAction,
-  Detail,
-  OpenInBrowserAction,
-} from "@raycast/api"
+import { Action, ActionPanel, Detail } from "@raycast/api"
 
 import { ScriptCommand } from "@models"
 
-import { useSourceCode } from "Hooks/useSourceCode"
+import { useSourceCode } from "@hooks"
 
 type Props = {
   scriptCommand: ScriptCommand
@@ -34,8 +29,8 @@ export function SourceCodeDetail({ scriptCommand }: Props): JSX.Element {
 function ActionsSection({ url }: { url: string }): JSX.Element {
   return (
     <ActionPanel.Section>
-      <OpenInBrowserAction url={url} />
-      <CopyToClipboardAction title="Copy Script Command URL" content={url} />
+      <Action.OpenInBrowser url={url} />
+      <Action.CopyToClipboard title="Copy Script Command URL" content={url} />
     </ActionPanel.Section>
   )
 }

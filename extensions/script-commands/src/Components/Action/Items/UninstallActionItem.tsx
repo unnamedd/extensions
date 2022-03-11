@@ -1,4 +1,4 @@
-import { ActionPanel } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { IconConstants, ShortcutConstants } from "@constants"
 
@@ -8,7 +8,7 @@ type Props = {
 
 export function UninstallActionItem({ onUninstall }: Props): JSX.Element {
   return (
-    <ActionPanel.Item
+    <Action
       icon={IconConstants.Uninstall}
       title="Uninstall Script Command"
       shortcut={ShortcutConstants.Uninstall}

@@ -1,4 +1,4 @@
-import { ActionPanel } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { IconConstants } from "@constants"
 
@@ -10,7 +10,7 @@ export function ConfirmChangeActionItem({
   onConfirmSetup,
 }: Props): JSX.Element {
   return (
-    <ActionPanel.Item
+    <Action
       icon={IconConstants.ConfirmChange}
       title="Confirm Changes on Script Command"
       onAction={onConfirmSetup}

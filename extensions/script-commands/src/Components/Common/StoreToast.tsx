@@ -1,4 +1,4 @@
-import { showToast, ToastStyle, Toast } from "@raycast/api"
+import { showToast, Toast } from "@raycast/api"
 
 import { State, Progress } from "@types"
 
@@ -8,17 +8,17 @@ export async function StoreToast(
   message = ""
 ): Promise<Toast> {
   let title = ""
-  let style = ToastStyle.Animated
+  let style = Toast.Style.Animated
 
   switch (state) {
     case State.Installed:
       {
         if (progress === Progress.InProgress) {
           title = "Uninstalling Script Command..."
-          style = ToastStyle.Animated
+          style = Toast.Style.Animated
         } else {
           title = "Script Command uninstalled!"
-          style = ToastStyle.Success
+          style = Toast.Style.Success
         }
       }
       break
@@ -27,10 +27,10 @@ export async function StoreToast(
       {
         if (progress === Progress.InProgress) {
           title = "Installing Script Command..."
-          style = ToastStyle.Animated
+          style = Toast.Style.Animated
         } else {
           title = "Script Command installed!"
-          style = ToastStyle.Success
+          style = Toast.Style.Success
         }
       }
       break
@@ -39,7 +39,7 @@ export async function StoreToast(
       {
         title = "Extra setup needed!"
         message = "You must edit the Script Command before you can use it"
-        style = ToastStyle.Success
+        style = Toast.Style.Success
       }
       break
 
@@ -48,7 +48,7 @@ export async function StoreToast(
         title = "Changes Detected!"
         message =
           "Press Return to confirm your change and activate the Script Command."
-        style = ToastStyle.Success
+        style = Toast.Style.Success
       }
       break
 
@@ -56,7 +56,7 @@ export async function StoreToast(
       {
         title = "Error 😔"
         message = "Something went wrong"
-        style = ToastStyle.Failure
+        style = Toast.Style.Failure
       }
       break
   }

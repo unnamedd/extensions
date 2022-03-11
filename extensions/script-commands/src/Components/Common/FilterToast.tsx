@@ -1,4 +1,4 @@
-import { Toast, ToastStyle, showToast } from "@raycast/api"
+import { Toast, showToast } from "@raycast/api"
 
 import { Filter, State } from "@types"
 
@@ -9,7 +9,7 @@ export async function FilterToast(filter: Filter): Promise<Toast | null> {
 
   let title = "Filter activated: "
   const message = `To clear the filter, press Command + Shift + C`
-  const style = ToastStyle.Success
+  const style = Toast.Style.Success
 
   if (typeof filter === "string") {
     title += filter

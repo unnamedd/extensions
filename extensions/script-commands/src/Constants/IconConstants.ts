@@ -1,20 +1,20 @@
-import { Color, Icon, ImageLike } from "@raycast/api"
+import { Color, Icon, Image } from "@raycast/api"
 
 interface Constants {
-  ChangesDetected: ImageLike
-  ClearFilter: ImageLike
-  ConfirmChange: ImageLike
-  LocalSourceCode: ImageLike
-  Install: ImageLike
-  InstallPackage: ImageLike
-  Installed: ImageLike
-  Languages: ImageLike
-  NeedSetup: ImageLike
-  Readme: ImageLike
-  Setup: ImageLike
-  SourceCode: ImageLike
-  Type: ImageLike
-  Uninstall: ImageLike
+  ChangesDetected: Image.ImageLike
+  ClearFilter: Image.ImageLike
+  ConfirmChange: Image.ImageLike
+  LocalSourceCode: Image.ImageLike
+  Install: Image.ImageLike
+  InstallPackage: Image.ImageLike
+  Installed: Image.ImageLike
+  Languages: Image.ImageLike
+  NeedSetup: Image.ImageLike
+  Readme: Image.ImageLike
+  Setup: Image.ImageLike
+  SourceCode: Image.ImageLike
+  Type: Image.ImageLike
+  Uninstall: Image.ImageLike
 }
 
 export const IconConstants: Constants = {

@@ -1,6 +1,6 @@
 import { IconConstants, ShortcutConstants } from "@constants"
 
-import { ActionPanel } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { Filter } from "@types"
 
@@ -10,7 +10,7 @@ type Props = {
 
 export function ClearFilterActionItem({ onFilter }: Props): JSX.Element {
   return (
-    <ActionPanel.Item
+    <Action
       title="Clear filter"
       icon={IconConstants.ClearFilter}
       shortcut={ShortcutConstants.ClearFilter}

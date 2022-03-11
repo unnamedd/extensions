@@ -2,7 +2,7 @@ import { ViewReadmeActionItem } from "@components"
 
 import { CompactGroup } from "@models"
 
-import { ActionPanel, OpenInBrowserAction } from "@raycast/api"
+import { Action, ActionPanel } from "@raycast/api"
 
 import { readmeNormalURL } from "@urls"
 
@@ -24,7 +24,7 @@ export function ReadmeActionPanel({ group }: Props): JSX.Element {
     <ActionPanel.Section title="Package Information">
       <ViewReadmeActionItem group={group} />
       {normalURL && (
-        <OpenInBrowserAction
+        <Action.OpenInBrowser
           url={normalURL}
           shortcut={ShortcutConstants.ViewReadmeInBrowser}
         />

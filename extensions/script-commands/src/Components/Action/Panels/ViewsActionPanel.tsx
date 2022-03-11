@@ -1,4 +1,4 @@
-import { ActionPanel, OpenInBrowserAction } from "@raycast/api"
+import { Action, ActionPanel } from "@raycast/api"
 
 import { ViewSourceCodeActionItem } from "@components"
 
@@ -15,7 +15,7 @@ export function ViewsActionPanel({ url, scriptCommand }: Props): JSX.Element {
   return (
     <ActionPanel.Section>
       <ViewSourceCodeActionItem scriptCommand={scriptCommand} />
-      <OpenInBrowserAction
+      <Action.OpenInBrowser
         url={url}
         shortcut={ShortcutConstants.ViewSourceCodeInBrowser}
       />

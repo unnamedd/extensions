@@ -1,4 +1,4 @@
-import { ActionPanel } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { Language } from "@models"
 
@@ -13,7 +13,7 @@ type Props = {
 
 export function LanguageActionItem({ language, onFilter }: Props): JSX.Element {
   return (
-    <ActionPanel.Item
+    <Action
       title={language.displayName}
       icon={languageURL(language.name)}
       onAction={() => onFilter(language.name)}

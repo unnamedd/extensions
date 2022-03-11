@@ -1,4 +1,6 @@
-import { ActionPanel, randomId } from "@raycast/api"
+import { nanoid } from "nanoid"
+
+import { ActionPanel } from "@raycast/api"
 
 import { Author } from "@models"
 
@@ -17,7 +19,7 @@ export function AuthorsActionPanel({ authors }: Props): JSX.Element {
     <ActionPanel.Section
       title={totalDescription}
       children={authors.map(author => (
-        <AuthorActionItem key={author.url ?? randomId()} author={author} />
+        <AuthorActionItem key={author.url ?? nanoid()} author={author} />
       ))}
     />
   )

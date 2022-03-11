@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 
-import { Image, ImageLike } from "@raycast/api"
+import { Image } from "@raycast/api"
 
 import { ScriptCommand } from "@models"
 
@@ -26,9 +26,9 @@ interface UseScriptCommandProps {
   identifier: string
   title: string
   subtitle: string
-  icon: ImageLike
+  icon: Image.ImageLike
   keywords: string[]
-  accessoryIcon: ImageLike
+  accessoryIcon: Image.ImageLike
   accessoryTitle: string
   sourceCodeURL: string
   filter: Filter
@@ -159,10 +159,10 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
 // ###########################################################################
 // ###########################################################################
 
-type AccessoryIconFor = (state: State, language: string) => ImageLike
+type AccessoryIconFor = (state: State, language: string) => Image.ImageLike
 
 const accessoryIconFor: AccessoryIconFor = (state, language) => {
-  let icon: ImageLike
+  let icon: Image.ImageLike
 
   if (state === State.Installed) {
     icon = IconConstants.Installed

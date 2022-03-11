@@ -1,4 +1,4 @@
-import { Toast, ToastStyle, showToast } from "@raycast/api"
+import { Toast, showToast } from "@raycast/api"
 
 import { Progress } from "@types"
 
@@ -8,20 +8,20 @@ export async function PackageToast(
   message = ""
 ): Promise<Toast> {
   let title = ""
-  let style = ToastStyle.Animated
+  let style = Toast.Style.Animated
 
   switch (progress) {
     case Progress.InProgress:
       {
         title = `Installing package '${packageName}'...`
-        style = ToastStyle.Animated
+        style = Toast.Style.Animated
       }
       break
 
     case Progress.Finished:
       {
         title = `Package '${packageName}' installed!`
-        style = ToastStyle.Success
+        style = Toast.Style.Success
       }
       break
   }

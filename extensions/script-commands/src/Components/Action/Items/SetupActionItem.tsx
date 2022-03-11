@@ -1,4 +1,4 @@
-import { OpenWithAction } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { IconConstants } from "@constants"
 
@@ -9,7 +9,7 @@ type Props = {
 
 export function SetupActionItem({ path, onSetup }: Props): JSX.Element {
   return (
-    <OpenWithAction
+    <Action.OpenWith
       icon={IconConstants.Setup}
       title="Configure Script Command with"
       path={path}

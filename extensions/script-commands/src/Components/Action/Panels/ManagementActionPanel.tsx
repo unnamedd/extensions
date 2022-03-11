@@ -31,7 +31,7 @@ export function ManagementActionPanel({
   onConfirmSetup,
   onEditLocal,
   onInstallPackage,
-}: Props): JSX.Element | null {
+}: Props) {
   const elements: JSX.Element[] = []
 
   const uninstallAction = (

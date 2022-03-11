@@ -1,9 +1,4 @@
-import {
-  ActionPanel,
-  Image,
-  ImageMask,
-  OpenInBrowserAction,
-} from "@raycast/api"
+import { Action, ActionPanel, Image } from "@raycast/api"
 
 import { Author } from "@models"
 
@@ -41,16 +36,16 @@ export function AuthorActionItem({ author }: Props): JSX.Element {
     }
 
     return (
-      <OpenInBrowserAction title={name} icon={avatarImage(url)} url={url} />
+      <Action.OpenInBrowser title={name} icon={avatarImage(url)} url={url} />
     )
   } else {
-    return <ActionPanel.Item title={name} icon={avatarImage()} />
+    return <Action title={name} icon={avatarImage()} />
   }
 }
 
 const avatarImage = (url: string | null = null): Image => {
   return {
     source: avatarURL(url),
-    mask: ImageMask.Circle,
+    mask: Image.Mask.Circle,
   }
 }

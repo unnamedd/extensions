@@ -1,4 +1,4 @@
-import { OpenWithAction } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { IconConstants } from "@constants"
 
@@ -12,7 +12,7 @@ export function EditLocalSourceCodeActionItem({
   onSetup,
 }: Props): JSX.Element {
   return (
-    <OpenWithAction
+    <Action.OpenWith
       icon={IconConstants.LocalSourceCode}
       title="Edit Local Source Code with"
       path={path}
