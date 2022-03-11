@@ -5,7 +5,6 @@
   "tabWidth": 2,
   "useTabs": false,
   "semi": false,
-  "proseWrap": "always",
   "bracketSameLine": true,
   "jsxBracketSameLine": false
 }

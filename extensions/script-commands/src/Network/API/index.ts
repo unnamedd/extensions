@@ -1,1 +1,1 @@
-export { fetchScriptCommands, fetchSourceCode, fetchReadme } from "./GitHub";
+export { fetchScriptCommands, fetchSourceCode, fetchReadme } from "./GitHub"

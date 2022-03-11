@@ -1,12 +1,12 @@
-import { IconConstants, ShortcutConstants } from "@constants";
+import { IconConstants, ShortcutConstants } from "@constants"
 
-import { ActionPanel } from "@raycast/api";
+import { ActionPanel } from "@raycast/api"
 
-import { Filter } from "@types";
+import { Filter } from "@types"
 
 type Props = {
-  onFilter: (filter: Filter) => void;
-};
+  onFilter: (filter: Filter) => void
+}
 
 export function ClearFilterActionItem({ onFilter }: Props): JSX.Element {
   return (
@@ -16,5 +16,5 @@ export function ClearFilterActionItem({ onFilter }: Props): JSX.Element {
       shortcut={ShortcutConstants.ClearFilter}
       onAction={() => onFilter(null)}
     />
-  );
+  )
 }

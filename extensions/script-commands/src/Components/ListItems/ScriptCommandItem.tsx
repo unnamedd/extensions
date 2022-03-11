@@ -1,4 +1,4 @@
-import { ActionPanel, List, showHUD } from "@raycast/api";
+import { ActionPanel, List, showHUD } from "@raycast/api"
 
 import {
   AuthorsActionPanel,
@@ -7,47 +7,52 @@ import {
   ReadmeActionPanel,
   StoreToast,
   ViewsActionPanel,
-} from "@components";
+} from "@components"
 
-import { useScriptCommand } from "@hooks";
+import { useScriptCommand } from "@hooks"
 
-import { CompactGroup, ScriptCommand } from "@models";
+import { CompactGroup, ScriptCommand } from "@models"
 
-import { Progress, State } from "@types";
+import { Progress, State } from "@types"
 
 type Props = {
-  scriptCommand: ScriptCommand;
-  group: CompactGroup;
-  onInstallPackage: () => void;
-};
+  scriptCommand: ScriptCommand
+  group: CompactGroup
+  onInstallPackage: () => void
+}
 
-export function ScriptCommandItem({ scriptCommand, group, onInstallPackage }: Props): JSX.Element {
-  const { props, install, uninstall, confirmSetup, editSourceCode, setFilter } = useScriptCommand(scriptCommand);
+export function ScriptCommandItem({
+  scriptCommand,
+  group,
+  onInstallPackage,
+}: Props): JSX.Element {
+  const { props, install, uninstall, confirmSetup, editSourceCode, setFilter } =
+    useScriptCommand(scriptCommand)
 
   const handleInstall = async () => {
-    await StoreToast(props.state, Progress.InProgress, scriptCommand.title);
+    await StoreToast(props.state, Progress.InProgress, scriptCommand.title)
 
-    install();
+    install()
 
-    await StoreToast(props.state, Progress.Finished, scriptCommand.title);
-  };
+    await StoreToast(props.state, Progress.Finished, scriptCommand.title)
+  }
 
   const handleUninstall = async () => {
-    await StoreToast(State.Installed, Progress.InProgress, scriptCommand.title);
+    await StoreToast(State.Installed, Progress.InProgress, scriptCommand.title)
 
-    uninstall();
+    uninstall()
 
-    await StoreToast(State.Installed, Progress.Finished, scriptCommand.title);
-  };
+    await StoreToast(State.Installed, Progress.Finished, scriptCommand.title)
+  }
 
   const handleSetup = () => {
-    showHUD(`Opening ${props.title}'s file to be configured...`);
-  };
+    showHUD(`Opening ${props.title}'s file to be configured...`)
+  }
 
   const handleEditLocal = () => {
-    editSourceCode();
-    showHUD(`Opening ${props.title}'s local source code to be edited...`);
-  };
+    editSourceCode()
+    showHUD(`Opening ${props.title}'s local source code to be edited...`)
+  }
 
   return (
     <List.Item
@@ -71,12 +76,17 @@ export function ScriptCommandItem({ scriptCommand, group, onInstallPackage }: Pr
             onSetup={handleSetup}
             onUninstall={handleUninstall}
           />
-          <ViewsActionPanel url={props.sourceCodeURL} scriptCommand={scriptCommand} />
+          <ViewsActionPanel
+            url={props.sourceCodeURL}
+            scriptCommand={scriptCommand}
+          />
           <AuthorsActionPanel authors={scriptCommand.authors ?? []} />
-          {group.readme && group.readme.length > 0 && <ReadmeActionPanel group={group} />}
+          {group.readme && group.readme.length > 0 && (
+            <ReadmeActionPanel group={group} />
+          )}
           <FiltersActionPanel filter={props.filter} onFilter={setFilter} />
         </ActionPanel>
       }
     />
-  );
+  )
 }

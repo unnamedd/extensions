@@ -1,13 +1,16 @@
-import { OpenWithAction } from "@raycast/api";
+import { OpenWithAction } from "@raycast/api"
 
-import { IconConstants } from "@constants";
+import { IconConstants } from "@constants"
 
 type Props = {
-  path: string;
-  onSetup: () => void;
-};
+  path: string
+  onSetup: () => void
+}
 
-export function EditLocalSourceCodeActionItem({ path, onSetup }: Props): JSX.Element {
+export function EditLocalSourceCodeActionItem({
+  path,
+  onSetup,
+}: Props): JSX.Element {
   return (
     <OpenWithAction
       icon={IconConstants.LocalSourceCode}
@@ -15,5 +18,5 @@ export function EditLocalSourceCodeActionItem({ path, onSetup }: Props): JSX.Ele
       path={path}
       onOpen={onSetup}
     />
-  );
+  )
 }

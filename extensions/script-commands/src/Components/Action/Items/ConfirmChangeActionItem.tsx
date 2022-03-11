@@ -1,17 +1,19 @@
-import { ActionPanel } from "@raycast/api";
+import { ActionPanel } from "@raycast/api"
 
-import { IconConstants } from "@constants";
+import { IconConstants } from "@constants"
 
 type Props = {
-  onConfirmSetup: () => void;
-};
+  onConfirmSetup: () => void
+}
 
-export function ConfirmChangeActionItem({ onConfirmSetup }: Props): JSX.Element {
+export function ConfirmChangeActionItem({
+  onConfirmSetup,
+}: Props): JSX.Element {
   return (
     <ActionPanel.Item
       icon={IconConstants.ConfirmChange}
       title="Confirm Changes on Script Command"
       onAction={onConfirmSetup}
     />
-  );
+  )
 }

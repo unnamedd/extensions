@@ -1,14 +1,14 @@
-import { KeyboardShortcut } from "@raycast/api";
+import { KeyboardShortcut } from "@raycast/api"
 
 interface Constants {
-  ClearFilter: KeyboardShortcut;
-  Languages: KeyboardShortcut;
-  Type: KeyboardShortcut;
-  Uninstall: KeyboardShortcut;
-  ViewReadmeInBrowser: KeyboardShortcut;
-  ViewReadme: KeyboardShortcut;
-  ViewSourceCodeInBrowser: KeyboardShortcut;
-  ViewSourceCode: KeyboardShortcut;
+  ClearFilter: KeyboardShortcut
+  Languages: KeyboardShortcut
+  Type: KeyboardShortcut
+  Uninstall: KeyboardShortcut
+  ViewReadmeInBrowser: KeyboardShortcut
+  ViewReadme: KeyboardShortcut
+  ViewSourceCodeInBrowser: KeyboardShortcut
+  ViewSourceCode: KeyboardShortcut
 }
 
 export const ShortcutConstants: Constants = {
@@ -44,4 +44,4 @@ export const ShortcutConstants: Constants = {
     modifiers: ["cmd", "shift"],
     key: "s",
   },
-};
+}
