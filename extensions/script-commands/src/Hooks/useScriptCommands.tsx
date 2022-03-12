@@ -20,6 +20,7 @@ type UserScriptCommandsProps = {
   groups: CompactGroup[]
   totalScriptCommands: number
   filter: Filter
+  isSidebarEnabled: boolean
 }
 
 type UseScriptCommands = () => {
@@ -112,6 +113,7 @@ export const useScriptCommands: UseScriptCommands = () => {
       groups: state.main.groups,
       totalScriptCommands: state.main.totalScriptCommands,
       filter: filter,
+      isSidebarEnabled: dataManager.isSidebarDetailsEnabled(),
     },
     setFilter,
     setSelection,

@@ -12,6 +12,7 @@ export function MainContent(): JSX.Element {
       isLoading={props.isLoading}
       searchBarPlaceholder={props.placeholder}
       onSelectionChange={setSelection}
+      isShowingDetail={props.isSidebarEnabled}
       children={props.groups.map(group => (
         <GroupSection
           key={group.identifier}

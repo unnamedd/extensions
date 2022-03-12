@@ -137,6 +137,10 @@ export class DataManager {
     return true
   }
 
+  isSidebarDetailsEnabled(): boolean {
+    return this.settings.showSidebarDetails
+  }
+
   monitorChangesFor(
     identifier: string,
     callback: (state: State) => void

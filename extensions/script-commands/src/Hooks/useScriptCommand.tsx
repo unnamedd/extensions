@@ -34,10 +34,12 @@ interface UseScriptCommandProps {
   filter: Filter
   state: State
   path?: string
+  isSidebarEnabled: boolean
 }
 
 type UseScriptCommandState = {
   props: UseScriptCommandProps
+  details: string
   install: () => void
   uninstall: () => void
   confirmSetup: () => void
@@ -147,7 +149,9 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
       filter: filter,
       state: state.commandState,
       path: file?.path,
+      isSidebarEnabled: dataManager.isSidebarDetailsEnabled(),
     },
+    details: details(state),
     install,
     uninstall,
     confirmSetup,
@@ -271,4 +275,61 @@ const iconFor: IconFor = scriptCommand => {
   }
 
   return image
+}
+
+// ###########################################################################
+// ###########################################################################
+
+type Details = (state: ScriptCommandState) => string
+
+const details: Details = state => {
+  const newLine = "\n\n"
+  const separator = "\n"//"\n***\n"
+
+  const scriptCommand = state.scriptCommand
+
+  let content = ""
+  content = `## ${scriptCommand.title}`
+
+  const description = scriptCommand.description
+  if (description && description.length > 0)
+
+  content += newLine + scriptCommand.description + "\n***"
+  content += separator
+
+  const authors = scriptCommand.authors
+  if (authors && authors.length > 0) {
+    const suffix = authors.length > 1 ? "s" : ""
+    content += label(`Author${suffix}`, accessoryTitleFor(scriptCommand))
+  }
+
+  content += label("Filename", scriptCommand.filename)
+  content += separator
+  content += label("Created At", scriptCommand.createdAt.toString())
+  content += label("Updated At", scriptCommand.updatedAt.toString())
+  content += separator 
+  
+  let commandState = ""
+  if (state.commandState === State.Installed) {
+    commandState = "Installed"
+  } else if (state.commandState === State.NeedSetup) {
+    commandState = "Need Setup"
+  } else if (state.commandState === State.ChangesDetected) {
+    commandState = "Changes Detected"
+  }
+  else {
+    commandState = "Not installed"
+  }
+
+  content += label("Status", commandState)
+  content += separator
+
+  return content
+}
+
+type LabelValue = (label: string, value: string) => string
+
+const label: LabelValue = (label, value) => {
+  const newLine = "\n>"
+  return newLine + label + ": **" + value + "**  "
 }

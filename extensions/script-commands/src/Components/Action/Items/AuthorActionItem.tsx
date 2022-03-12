@@ -1,4 +1,4 @@
-import { Action, ActionPanel, Image } from "@raycast/api"
+import { Action, Image } from "@raycast/api"
 
 import { Author } from "@models"
 
@@ -13,7 +13,7 @@ export function AuthorActionItem({ author }: Props): JSX.Element {
   let url = author.url
 
   if (!url) {
-    return <ActionPanel.Item title={name} icon={avatarImage()} />
+    return <Action title={name} icon={avatarImage()} />
   }
 
   if (

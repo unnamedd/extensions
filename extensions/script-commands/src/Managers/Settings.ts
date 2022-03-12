@@ -11,6 +11,7 @@ export class Settings {
   databaseFile: string
   repositoryCommandsFolderPath: string
   imagesCommandsFolderPath: string
+  showSidebarDetails: boolean
 
   constructor() {
     this.supportPath = environment.supportPath
@@ -22,6 +23,7 @@ export class Settings {
       "commands"
     )
     this.imagesCommandsFolderPath = path.join(this.commandsFolderPath, "images")
+    this.showSidebarDetails = getPreferenceValues().showSidebarDetails
   }
 
   private resolvePath(folder: string): string {

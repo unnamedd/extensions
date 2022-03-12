@@ -1,4 +1,4 @@
-import { ActionPanel, List, showHUD } from "@raycast/api"
+import { ActionPanel, Image, List, showHUD } from "@raycast/api"
 
 import {
   AuthorsActionPanel,
@@ -26,8 +26,15 @@ export function ScriptCommandItem({
   group,
   onInstallPackage,
 }: Props): JSX.Element {
-  const { props, install, uninstall, confirmSetup, editSourceCode, setFilter } =
-    useScriptCommand(scriptCommand)
+  const {
+    props,
+    details,
+    install,
+    uninstall,
+    confirmSetup,
+    editSourceCode,
+    setFilter,
+  } = useScriptCommand(scriptCommand)
 
   const handleInstall = async () => {
     await StoreToast(props.state, Progress.InProgress, scriptCommand.title)
@@ -54,16 +61,32 @@ export function ScriptCommandItem({
     showHUD(`Opening ${props.title}'s local source code to be edited...`)
   }
 
+  let accessoryIcon: undefined | Image.ImageLike
+  let accessoryTitle: undefined | string
+  let subtitle: undefined | string
+  let detailsContent: undefined | string
+
+  if (props.isSidebarEnabled) {
+    detailsContent = details
+  } else {
+    accessoryIcon = props.accessoryIcon
+    accessoryTitle = props.accessoryTitle
+    subtitle = props.subtitle
+  }
+
   return (
     <List.Item
       id={props.identifier}
       key={props.identifier}
-      title={props.title}
-      subtitle={props.subtitle}
       icon={props.icon}
+      title={props.title}
+      subtitle={subtitle}
+      accessoryIcon={accessoryIcon}
+      accessoryTitle={accessoryTitle}
       keywords={props.keywords}
-      accessoryIcon={props.accessoryIcon}
-      accessoryTitle={props.accessoryTitle}
+      detail={
+        props.isSidebarEnabled && <List.Item.Detail markdown={detailsContent} />
+      }
       actions={
         <ActionPanel title={props.title}>
           <ManagementActionPanel
