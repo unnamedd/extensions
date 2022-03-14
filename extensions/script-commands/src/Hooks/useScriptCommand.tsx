@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import moment from "moment"
 
 import { Image } from "@raycast/api"
 
@@ -284,17 +285,22 @@ type Details = (state: ScriptCommandState) => string
 
 const details: Details = state => {
   const newLine = "\n\n"
-  const separator = "\n"//"\n***\n"
+  const separator = "\n***\n"
 
   const scriptCommand = state.scriptCommand
 
   let content = ""
-  content = `## ${scriptCommand.title}`
 
-  const description = scriptCommand.description
-  if (description && description.length > 0)
+  if (scriptCommand.packageName) {
+    content += `**${scriptCommand.packageName}**\n\n`
+  }
 
-  content += newLine + scriptCommand.description + "\n***"
+  content += newLine + `## ${scriptCommand.title}`
+
+  if (scriptCommand.description) {
+    content += newLine + scriptCommand.description
+  }
+
   content += separator
 
   const authors = scriptCommand.authors
@@ -303,11 +309,14 @@ const details: Details = state => {
     content += label(`Author${suffix}`, accessoryTitleFor(scriptCommand))
   }
 
-  content += label("Filename", scriptCommand.filename)
-  content += separator
-  content += label("Created At", scriptCommand.createdAt.toString())
-  content += label("Updated At", scriptCommand.updatedAt.toString())
-  content += separator 
+  content += newLine
+  const dateFormat = "dddd, MMMM Do YYYY, hh:mm:ss a"
+  const createdAtDate = moment(scriptCommand.createdAt).format(dateFormat)
+  const updatedAtDate = moment(scriptCommand.updatedAt).format(dateFormat)
+
+  content += label("Created at", createdAtDate.toString())
+  content += label("Updated at", updatedAtDate.toString())
+  content += newLine 
   
   let commandState = ""
   if (state.commandState === State.Installed) {
@@ -322,7 +331,7 @@ const details: Details = state => {
   }
 
   content += label("Status", commandState)
-  content += separator
+  content += newLine
 
   return content
 }
@@ -330,6 +339,6 @@ const details: Details = state => {
 type LabelValue = (label: string, value: string) => string
 
 const label: LabelValue = (label, value) => {
-  const newLine = "\n>"
-  return newLine + label + ": **" + value + "**  "
+  const newLine = "\n"
+  return newLine + label + " **" + value + "**  "
 }

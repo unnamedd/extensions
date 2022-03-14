@@ -74,6 +74,10 @@ export function ScriptCommandItem({
     subtitle = props.subtitle
   }
 
+  if (group.subtitle) {
+    detailsContent = `${group.subtitle} > ${detailsContent}`
+  }
+
   return (
     <List.Item
       id={props.identifier}
