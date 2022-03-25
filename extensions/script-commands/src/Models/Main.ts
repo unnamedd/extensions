@@ -8,6 +8,7 @@ export type MainCompactGroup = Main<CompactGroup>
 
 interface Main<T> {
   groups: T[]
+  parentGroups?: T[]
   totalScriptCommands: number
   languages: Language[]
 }

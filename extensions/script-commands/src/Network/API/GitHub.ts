@@ -28,6 +28,7 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
       groups: [],
       totalScriptCommands: object.totalScriptCommands,
       languages: object.languages,
+      parentGroups: []
     }
 
     object.groups.sort((left: Group, right: Group) =>
@@ -35,6 +36,13 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
     )
 
     object.groups.forEach(group => {
+      main.parentGroups?.push({
+        identifier: group.path,
+        path: group.path,
+        title: group.name,
+        scriptCommands: []
+      })
+      
       main.groups.push(flattenGroups(group))
 
       if (group.subGroups && group.subGroups.length > 0) {
@@ -85,6 +93,7 @@ const flattenGroups: FlattenGroups = (group, parentGroupName = undefined) => {
     identifier: identifier,
     title: title,
     subtitle: subtitle,
+    path: identifier,
     readme: group.readme,
     scriptCommands: group.scriptCommands,
   }
