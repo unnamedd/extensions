@@ -32,6 +32,8 @@ import {
   FSWatcher,
 } from "fs"
 
+import { getPreferenceValues } from "@raycast/api"
+
 export class DataManager {
   private static instance = new DataManager()
 
@@ -138,7 +140,7 @@ export class DataManager {
   }
 
   isSidebarDetailsEnabled(): boolean {
-    return this.settings.showSidebarDetails
+    return getPreferenceValues().showSidebarDetails
   }
 
   monitorChangesFor(
