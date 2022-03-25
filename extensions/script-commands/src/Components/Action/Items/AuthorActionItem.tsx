@@ -1,51 +1,21 @@
-import { Action, Image } from "@raycast/api"
+import { Action } from "@raycast/api"
 
 import { Author } from "@models"
 
-import { avatarURL, checkIsValidURL } from "@urls"
+import { infoDisplayForAuthor } from "@helpers"
 
 type Props = {
   author: Author
 }
 
 export function AuthorActionItem({ author }: Props): JSX.Element {
-  let name = author.name ?? "Raycast"
-  let url = author.url
+  const info = infoDisplayForAuthor(author)
 
-  if (!url) {
-    return <Action title={name} icon={avatarImage()} />
-  }
-
-  if (
-    url &&
-    url.length > 0 &&
-    (!url.startsWith("http") || !url.startsWith("https"))
-  ) {
-    // As every url gives support at least to http, we are prepending http:// to the url.
-    // This is an arbitrary decision.
-    url = `http://${url}`
-  }
-
-  if (checkIsValidURL(url)) {
-    const path = new URL(url)
-
-    if (path.host === "twitter.com") {
-      name = `${name} (Twitter)`
-    } else if (path.host === "github.com") {
-      name = `${name} (GitHub)`
-    }
-
+  if (info.url) {
     return (
-      <Action.OpenInBrowser title={name} icon={avatarImage(url)} url={url} />
+      <Action.OpenInBrowser title={info.name} icon={info.icon} url={info.url} />
     )
-  } else {
-    return <Action title={name} icon={avatarImage()} />
   }
-}
 
-const avatarImage = (url: string | null = null): Image => {
-  return {
-    source: avatarURL(url),
-    mask: Image.Mask.Circle,
-  }
+  return <Action title={info.name} icon={info.icon} />
 }
