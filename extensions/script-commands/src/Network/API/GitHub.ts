@@ -1,6 +1,6 @@
 import fetch from "node-fetch"
 
-import { showToast, ToastStyle } from "@raycast/api"
+import { showToast, Toast } from "@raycast/api"
 
 import {
   MainGroup,
@@ -50,7 +50,7 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
 
     return main
   } catch (error) {
-    showToast(ToastStyle.Failure, "Could not load Script Commands")
+    showToast(Toast.Style.Failure, "Could not load Script Commands")
 
     return Promise.resolve({
       groups: [],
@@ -104,7 +104,7 @@ export async function fetchSourceCode(
   } catch {
     if (!signal.aborted) {
       showToast(
-        ToastStyle.Failure,
+        Toast.Style.Failure,
         `Could not load the source code for ${scriptCommand.title}`
       )
     }
@@ -126,7 +126,7 @@ export async function fetchReadme(
   } catch {
     if (!signal.aborted) {
       showToast(
-        ToastStyle.Failure,
+        Toast.Style.Failure,
         `Could not load the README for path ${path}`
       )
     }
