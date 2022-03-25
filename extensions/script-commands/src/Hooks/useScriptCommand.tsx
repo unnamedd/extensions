@@ -9,14 +9,14 @@ import { useDataManager } from "@hooks"
 
 import { Filter, State } from "@types"
 
-import {
-  iconDarkURLFor,
-  iconLightURLFor,
-  languageURL,
-  sourceCodeNormalURL,
-} from "@urls"
+import { languageURL, sourceCodeNormalURL } from "@urls"
 
-import { IconConstants } from "@constants"
+import {
+  descriptionForState,
+  iconForScriptCommand,
+  iconForState,
+  keywordsForScriptCommand,
+} from "@helpers"
 
 type ScriptCommandState = {
   commandState: State
@@ -27,10 +27,11 @@ interface UseScriptCommandProps {
   identifier: string
   title: string
   subtitle: string
-  icon: Image.ImageLike
   keywords: string[]
-  accessoryIcon: Image.ImageLike
-  accessoryTitle: string
+  icon: Image.ImageLike
+  iconForState: Image.ImageLike | undefined
+  iconForLanguage: Image.ImageLike
+  author: string
   sourceCodeURL: string
   filter: Filter
   state: State
@@ -139,13 +140,17 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
       identifier: state.scriptCommand.identifier,
       title: state.scriptCommand.title,
       subtitle: state.scriptCommand.packageName ?? "",
-      icon: iconFor(state.scriptCommand),
-      keywords: keywordsFor(state.scriptCommand, state.commandState),
-      accessoryIcon: accessoryIconFor(
-        state.commandState,
-        state.scriptCommand.language
+      keywords: keywordsForScriptCommand(
+        state.scriptCommand,
+        state.commandState
       ),
-      accessoryTitle: accessoryTitleFor(state.scriptCommand),
+      icon: iconForScriptCommand(state.scriptCommand),
+      iconForState:
+        state.commandState === State.NotInstalled
+          ? undefined
+          : iconForState(state.commandState),
+      iconForLanguage: { source: languageURL(state.scriptCommand.language) },
+      author: authorDescription(state.scriptCommand),
       sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
       filter: filter,
       state: state.commandState,
@@ -164,32 +169,9 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
 // ###########################################################################
 // ###########################################################################
 
-type AccessoryIconFor = (state: State, language: string) => Image.ImageLike
+type AuthorDescription = (scriptCommand: ScriptCommand) => string
 
-const accessoryIconFor: AccessoryIconFor = (state, language) => {
-  let icon: Image.ImageLike
-
-  if (state === State.Installed) {
-    icon = IconConstants.Installed
-  } else if (state === State.NeedSetup) {
-    icon = IconConstants.NeedSetup
-  } else if (state === State.ChangesDetected) {
-    icon = IconConstants.ChangesDetected
-  } else {
-    icon = {
-      source: languageURL(language),
-    }
-  }
-
-  return icon
-}
-
-// ###########################################################################
-// ###########################################################################
-
-type AccessoryTitleFor = (scriptCommand: ScriptCommand) => string
-
-const accessoryTitleFor: AccessoryTitleFor = scriptCommand => {
+const authorDescription: AuthorDescription = scriptCommand => {
   const defaultAuthor = "Raycast"
 
   if (!scriptCommand.authors) {
@@ -213,69 +195,6 @@ const accessoryTitleFor: AccessoryTitleFor = scriptCommand => {
   })
 
   return content
-}
-
-// ###########################################################################
-// ###########################################################################
-
-type KeywordsIconFor = (scriptCommand: ScriptCommand, state: State) => string[]
-
-const keywordsFor: KeywordsIconFor = (scriptCommand, state) => {
-  const keywords: string[] = []
-
-  const packageName = scriptCommand.packageName
-
-  if (packageName) {
-    keywords.push(packageName)
-  }
-
-  const authors = scriptCommand.authors
-
-  if (authors && authors.length > 0) {
-    authors.forEach(author => {
-      const name = author.name
-
-      if (name) {
-        name.split(" ").forEach(value => keywords.push(value))
-      }
-    })
-  }
-
-  if (scriptCommand.language) {
-    keywords.push(scriptCommand.language)
-  }
-
-  if (state === State.Installed) {
-    keywords.push("installed")
-  } else if (state === State.NeedSetup || state === State.ChangesDetected) {
-    keywords.push("installed")
-    keywords.push("setup")
-  }
-
-  if (scriptCommand.isTemplate) {
-    keywords.push("template")
-  }
-
-  return keywords
-}
-
-// ###########################################################################
-// ###########################################################################
-
-type IconFor = (scriptCommand: ScriptCommand) => Image
-
-const iconFor: IconFor = scriptCommand => {
-  const iconDark = iconDarkURLFor(scriptCommand)
-  const iconLight = iconLightURLFor(scriptCommand)
-
-  const image: Image = {
-    source: {
-      light: iconLight != null ? iconLight.content : "",
-      dark: iconDark != null ? iconDark.content : "",
-    },
-  }
-
-  return image
 }
 
 // ###########################################################################
@@ -306,31 +225,19 @@ const details: Details = state => {
   const authors = scriptCommand.authors
   if (authors && authors.length > 0) {
     const suffix = authors.length > 1 ? "s" : ""
-    content += label(`Author${suffix}`, accessoryTitleFor(scriptCommand))
+    content += label(`Author${suffix}`, authorDescription(scriptCommand))
   }
 
   content += newLine
-  const dateFormat = "dddd, MMMM Do YYYY, hh:mm:ss a"
-  const createdAtDate = moment(scriptCommand.createdAt).format(dateFormat)
-  const updatedAtDate = moment(scriptCommand.updatedAt).format(dateFormat)
+  const formatMask = "LLL"
+  const createdAt = moment(scriptCommand.createdAt).format(formatMask)
+  const updatedAt = moment(scriptCommand.updatedAt).format(formatMask)
 
-  content += label("Created at", createdAtDate.toString())
-  content += label("Updated at", updatedAtDate.toString())
-  content += newLine 
-  
-  let commandState = ""
-  if (state.commandState === State.Installed) {
-    commandState = "Installed"
-  } else if (state.commandState === State.NeedSetup) {
-    commandState = "Need Setup"
-  } else if (state.commandState === State.ChangesDetected) {
-    commandState = "Changes Detected"
-  }
-  else {
-    commandState = "Not installed"
-  }
+  content += label("Created at", createdAt)
+  content += label("Updated at", updatedAt)
+  content += newLine
 
-  content += label("Status", commandState)
+  content += label("Status", descriptionForState(state.commandState))
   content += newLine
 
   return content

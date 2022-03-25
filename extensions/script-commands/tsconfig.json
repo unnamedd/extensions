@@ -18,13 +18,14 @@
       "@constants": ["Constants/index"],
       "@components": ["Components/index"],
       "@managers": ["Managers/index"],
+      "@helpers": ["Helpers/index"],
       "@hooks": ["Hooks/index"],
       "@models": ["Models/index"],
       "@network": ["Network/API/index"],
       "@providers": ["Providers/index"],
       "@stores": ["Stores/index"],
       "@types": ["Types/index"],
-      "@urls": ["Network/URL/index"]
+      "@urls": ["Helpers/URL/index"]
     }
   }
 }
