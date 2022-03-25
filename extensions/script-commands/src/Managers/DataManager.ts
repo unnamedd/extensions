@@ -216,7 +216,11 @@ export class DataManager {
   }
 
   fetchLanguages(): Language[] {
-    return this.mainContent.languages
+    return this.mainContent.languages.sort((left: Language, right: Language) =>
+      left.name > right.name ? 1 : -1
+    )
+  }
+
   fetchLanguage(name: string): Language | undefined {
     return this.fetchLanguages().find(item => item.name === name)
   }
