@@ -5,6 +5,11 @@
   "description": "Your new way to manage Script Commands without having to deal with GitHub.",
   "icon": "store-icon.png",
   "author": "tholanda",
+  "categories": [
+    "Other",
+    "Productivity",
+    "Applications"
+  ],
   "license": "MIT",
   "commands": [
     {
