@@ -217,6 +217,8 @@ export class DataManager {
 
   fetchLanguages(): Language[] {
     return this.mainContent.languages
+  fetchLanguage(name: string): Language | undefined {
+    return this.fetchLanguages().find(item => item.name === name)
   }
 
   async fetchCommands(filter: Filter = null): Promise<MainCompactGroup> {

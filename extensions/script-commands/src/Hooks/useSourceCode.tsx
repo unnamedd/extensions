@@ -1,10 +1,14 @@
+import moment from "moment"
+
 import { useEffect, useRef, useState } from "react"
 
 import { useDataManager } from "@hooks"
 
-import { ScriptCommand } from "@models"
+import { Language, ScriptCommand } from "@models"
 
 import { sourceCodeNormalURL } from "@urls"
+
+import { State } from "@types"
 
 type SourceCodeState = {
   content: string
@@ -13,6 +17,11 @@ type SourceCodeState = {
 
 type UseSourceCodeProps = {
   title: string
+  filename: string
+  createdAt: string
+  updatedAt: string
+  language: Language
+  state: State
   isLoading: boolean
   sourceCodeURL: string
   sourceCode: string
@@ -28,6 +37,16 @@ export const useSourceCode: UseSourceCode = initialScriptCommand => {
     content: "",
     scriptCommand: initialScriptCommand,
   })
+
+  let language = dataManager.fetchLanguage(state.scriptCommand.language)
+
+  if (!language) {
+    const languageName = state.scriptCommand.language
+    language = {
+      name: languageName,
+      displayName: languageName,
+    }
+  }
 
   useEffect(() => {
     const fetch = async () => {
@@ -54,26 +73,27 @@ export const useSourceCode: UseSourceCode = initialScriptCommand => {
     }
   }, [state])
 
+  const formatMask = "LLL"
+  const createdAt = moment(state.scriptCommand.createdAt).format(formatMask)
+  const updatedAt = moment(state.scriptCommand.updatedAt).format(formatMask)
+
   return {
     title: state.scriptCommand.title,
+    filename: state.scriptCommand.filename,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+    state: dataManager.stateFor(state.scriptCommand.identifier),
+    language: language,
     isLoading: state.content.length === 0,
     sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
-    sourceCode: details(
-      state.scriptCommand.language,
-      state.scriptCommand.filename,
-      state.content
-    ),
+    sourceCode: details(state.scriptCommand.language, state.content),
   }
 }
 
-type Details = (language: string, file: string, sourceCode: string) => string
+type Details = (language: string, sourceCode: string) => string
 
-const details: Details = (language, filename, sourceCode) => {
-  let content = `
-  Language: **${language}**  
-  File: **${filename}**  
-  \n\n  
-  `
+const details: Details = (language, sourceCode) => {
+  let content = ""
   content += "```" + language + "\n"
   content += sourceCode
   content += "\n```"
