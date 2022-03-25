@@ -1,4 +1,4 @@
-import { ActionPanel, Image, List, showHUD } from "@raycast/api"
+import { ActionPanel, List, showHUD } from "@raycast/api"
 
 import {
   AuthorsActionPanel,
@@ -61,17 +61,22 @@ export function ScriptCommandItem({
     showHUD(`Opening ${props.title}'s local source code to be edited...`)
   }
 
-  let accessoryIcon: undefined | Image.ImageLike
-  let accessoryTitle: undefined | string
   let subtitle: undefined | string
   let detailsContent: undefined | string
 
+  const accessories: List.Item.Accessory[] = []
   if (props.isSidebarEnabled) {
     detailsContent = details
+    if (props.iconForState) {
+      accessories.push({ icon: props.iconForState })
+    }
   } else {
-    accessoryIcon = props.accessoryIcon
-    accessoryTitle = props.accessoryTitle
     subtitle = props.subtitle
+    if (props.iconForState) {
+      accessories.push({ icon: props.iconForState })
+    }
+    accessories.push({ text: props.author })
+    accessories.push({ icon: props.iconForLanguage })
   }
 
   if (group.subtitle) {
@@ -83,11 +88,10 @@ export function ScriptCommandItem({
       id={props.identifier}
       key={props.identifier}
       icon={props.icon}
+      keywords={props.keywords}
       title={props.title}
       subtitle={subtitle}
-      accessoryIcon={accessoryIcon}
-      accessoryTitle={accessoryTitle}
-      keywords={props.keywords}
+      accessories={accessories}
       detail={
         props.isSidebarEnabled && <List.Item.Detail markdown={detailsContent} />
       }
