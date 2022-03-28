@@ -1,4 +1,4 @@
-export { ContentType, IconUsage, Progress, State } from "./Types"
+export { ContentType, FilterKind, IconUsage, Progress, State } from "./Types"
 
 export type {
   Command,

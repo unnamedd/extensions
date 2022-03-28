@@ -11,3 +11,5 @@ export { iconForState } from "./Images/IconForState"
 export { iconForScriptCommand } from "./Images/IconForScriptCommand"
 
 export { keywordsForScriptCommand } from "./Descriptions/KeywordsForScriptCommand"
+
+export { valueForFilterKind } from "./Conversions/ValueForFilterKind"

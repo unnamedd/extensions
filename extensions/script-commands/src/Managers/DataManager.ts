@@ -217,6 +217,10 @@ export class DataManager {
     return state
   }
 
+  fecthCategories(): CompactGroup[] {
+    return this.mainContent.parentGroups ?? []
+  }
+
   fetchLanguages(): Language[] {
     return this.mainContent.languages.sort((left: Language, right: Language) =>
       left.name > right.name ? 1 : -1
@@ -225,6 +229,10 @@ export class DataManager {
 
   fetchLanguage(name: string): Language | undefined {
     return this.fetchLanguages().find(item => item.name === name)
+  }
+
+  fetchCategory(path: string): CompactGroup | undefined {
+    return this.mainContent.parentGroups?.find(item => item.path === path)
   }
 
   async fetchCommands(filter: Filter = null): Promise<MainCompactGroup> {

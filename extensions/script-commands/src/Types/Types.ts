@@ -75,3 +75,10 @@ export type IconPathNullable = IconPath | null
 export type IconResultNullable = IconResult | null
 
 export type FileNullable = File | null
+
+export enum FilterKind {
+  All,
+  Category,
+  Language,
+  Status,
+}

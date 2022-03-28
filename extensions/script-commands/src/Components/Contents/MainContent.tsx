@@ -1,6 +1,10 @@
 import { ActionPanel, List } from "@raycast/api"
 
-import { ClearFilterActionItem, GroupSection } from "@components"
+import {
+  ClearFilterActionItem,
+  FilterDropdown,
+  GroupSection,
+} from "@components"
 
 import { useScriptCommands } from "@hooks"
 
@@ -13,6 +17,7 @@ export function MainContent(): JSX.Element {
       searchBarPlaceholder={props.placeholder}
       onSelectionChange={setSelection}
       isShowingDetail={props.isSidebarEnabled}
+      searchBarAccessory={<FilterDropdown onFilter={setFilter} />}
       children={props.groups.map(group => (
         <GroupSection
           key={group.identifier}
