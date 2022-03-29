@@ -12,4 +12,9 @@ export { iconForScriptCommand } from "./Images/IconForScriptCommand"
 
 export { keywordsForScriptCommand } from "./Descriptions/KeywordsForScriptCommand"
 
-export { valueForFilterKind } from "./Conversions/ValueForFilterKind"
+export {
+  valueForBasicFilterKind,
+  valueForFilterKind,
+} from "./Conversions/ValueForFilterKind"
+
+export { stateFromString } from "./Conversions/StateFromString"

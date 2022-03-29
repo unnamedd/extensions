@@ -1,5 +1,6 @@
 import { State } from "@types"
-import { StateConstants } from "Constants/StateConstants"
+
+import { StateConstants } from "@constants"
 
 type StateFromString = (value: string) => State
 

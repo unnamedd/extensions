@@ -1,9 +1,10 @@
+import { valueForBasicFilterKind } from "@helpers"
 import { Toast, showToast } from "@raycast/api"
 
 import { Filter, State } from "@types"
 
 export async function FilterToast(filter: Filter): Promise<Toast | null> {
-  if (filter == null) {
+  if (filter == null || filter == valueForBasicFilterKind) {
     return null
   }
 

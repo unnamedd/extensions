@@ -25,15 +25,8 @@ export function ScriptCommandItem({
   group,
   onInstallPackage,
 }: Props): JSX.Element {
-  const {
-    props,
-    details,
-    install,
-    uninstall,
-    confirmSetup,
-    editSourceCode,
-    setFilter,
-  } = useScriptCommand(scriptCommand)
+  const { props, details, install, uninstall, confirmSetup, editSourceCode } =
+    useScriptCommand(scriptCommand)
 
   const handleInstall = async () => {
     await StoreToast(props.state, Progress.InProgress, scriptCommand.title)
