@@ -402,7 +402,7 @@ export class DataManager {
         totalScriptCommands: group.scriptCommands.length,
         languages: [],
       }
-    } 
+    }
 
     return data
   }

@@ -14,7 +14,6 @@ export { ReadmeActionPanel } from "./Action/Panels/ReadmeActionPanel"
 export { ViewsActionPanel } from "./Action/Panels/ViewsActionPanel"
 export { ManagementActionPanel } from "./Action/Panels/ManagementActionPanel"
 
-export { FilterToast } from "./Common/FilterToast"
 export { PackageToast } from "./Common/PackageToast"
 export { StoreToast } from "./Common/StoreToast"
 

@@ -4,10 +4,6 @@ import { DataManager } from "@managers"
 
 import { Filter } from "@types"
 
-import { Toast } from "@raycast/api"
-
-import { FilterToast } from "@components"
-
 type ProviderState = {
   dataManager: DataManager
   filter: Filter
@@ -26,7 +22,7 @@ const initialState: ProviderState = {
   dataManager: DataManager.shared(),
   filter: null,
   commandIdentifier: "",
-  reloadDropdown: false
+  reloadDropdown: false,
 }
 
 export const ApplicationContext = createContext<ContextType>({
@@ -47,21 +43,10 @@ type ApplicationProviderProps = {
 }
 
 export const ApplicationProvider = ({ children }: ApplicationProviderProps) => {
-  let toast: Toast | null
   const [state] = useState<ProviderState>(initialState)
-  const [filter, setCustomFilter] = useState<Filter>(null)
+  const [filter, setFilter] = useState<Filter>(null)
   const [commandIdentifier, setCommandToRefresh] = useState<string>("")
   const [reloadDropdown, setReloadDropdown] = useState<boolean>(false)
-
-  const setFilter = async (filter: Filter) => {
-    setCustomFilter(filter)
-
-    if (filter != null) {
-      toast = await FilterToast(filter)
-    } else if (toast) {
-      toast.hide()
-    }
-  }
 
   return (
     <ApplicationContext.Provider
@@ -70,11 +55,11 @@ export const ApplicationProvider = ({ children }: ApplicationProviderProps) => {
           dataManager: state.dataManager,
           filter,
           commandIdentifier,
-          reloadDropdown
+          reloadDropdown,
         },
         setFilter,
         setCommandToRefresh,
-        setReloadDropdown
+        setReloadDropdown,
       }}
       children={children}
     />

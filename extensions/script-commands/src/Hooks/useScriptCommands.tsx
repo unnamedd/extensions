@@ -17,6 +17,7 @@ type UseScriptCommandsState = {
 type UserScriptCommandsProps = {
   placeholder: string
   isLoading: boolean
+  hasContent: boolean
   groups: CompactGroup[]
   totalScriptCommands: number
   filter: Filter
@@ -94,18 +95,21 @@ export const useScriptCommands: UseScriptCommands = () => {
   }, [filter])
 
   const isLoading = state.main.groups.length === 0
+  const totalScriptCommands = state.main.totalScriptCommands
+  const hasContent = totalScriptCommands > 0
   let placeholder = "Loading Script Commands..."
 
   if (!isLoading) {
-    placeholder = `Search by name, or author in ${state.main.totalScriptCommands} items`
+    placeholder = `Search by name, or author in ${totalScriptCommands} items`
   }
 
   return {
     props: {
       placeholder: placeholder,
       isLoading: isLoading,
+      hasContent: hasContent,
       groups: state.main.groups,
-      totalScriptCommands: state.main.totalScriptCommands,
+      totalScriptCommands: totalScriptCommands,
       filter: filter,
       isSidebarEnabled: dataManager.isSidebarDetailsEnabled(),
     },

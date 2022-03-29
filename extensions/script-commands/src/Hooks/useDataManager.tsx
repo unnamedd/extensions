@@ -27,6 +27,6 @@ export const useDataManager: UseDataManager = () => {
     reloadDropdown: state.reloadDropdown,
     setFilter,
     setCommandToRefresh,
-    setReloadDropdown
+    setReloadDropdown,
   }
 }

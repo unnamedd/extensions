@@ -55,7 +55,13 @@ type UseScriptCommand = (
 
 export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
   const abort = useRef<AbortController | null>(null)
-  const { dataManager, filter, commandIdentifier, setFilter, setCommandToRefresh, setReloadDropdown } = useDataManager()
+  const {
+    dataManager,
+    filter,
+    commandIdentifier,
+    setFilter,
+    setReloadDropdown,
+  } = useDataManager()
 
   const [state, setState] = useState<ScriptCommandState>({
     commandState: dataManager.stateFor(initialScriptCommand.identifier),

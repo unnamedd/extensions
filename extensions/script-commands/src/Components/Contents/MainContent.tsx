@@ -14,10 +14,10 @@ export function MainContent(): JSX.Element {
   return (
     <List
       isLoading={props.isLoading}
-      searchBarPlaceholder={props.placeholder}
-      onSelectionChange={setSelection}
       isShowingDetail={props.isSidebarEnabled}
+      onSelectionChange={setSelection}
       searchBarAccessory={<FilterDropdown onFilter={setFilter} />}
+      searchBarPlaceholder={props.placeholder}
       children={props.groups.map(group => (
         <GroupSection
           key={group.identifier}
@@ -27,7 +27,7 @@ export function MainContent(): JSX.Element {
       ))}
       actions={
         <ActionPanel title="Filter by">
-          {props.filter != null && props.totalScriptCommands == 0 && (
+          {props.filter != null && !props.hasContent && (
             <ClearFilterActionItem onFilter={setFilter} />
           )}
         </ActionPanel>
