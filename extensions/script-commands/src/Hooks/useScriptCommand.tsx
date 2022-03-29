@@ -55,7 +55,7 @@ type UseScriptCommand = (
 
 export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
   const abort = useRef<AbortController | null>(null)
-  const { dataManager, filter, commandIdentifier, setFilter } = useDataManager()
+  const { dataManager, filter, commandIdentifier, setFilter, setCommandToRefresh, setReloadDropdown } = useDataManager()
 
   const [state, setState] = useState<ScriptCommandState>({
     commandState: dataManager.stateFor(initialScriptCommand.identifier),
@@ -87,7 +87,9 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
   }, [state])
 
   const install = async () => {
+    setReloadDropdown(false)
     const result = await dataManager.installScriptCommand(state.scriptCommand)
+    setReloadDropdown(true)
 
     setState(oldState => ({
       ...oldState,
@@ -96,7 +98,9 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
   }
 
   const uninstall = async () => {
+    setReloadDropdown(false)
     const result = await dataManager.deleteScriptCommand(state.scriptCommand)
+    setReloadDropdown(true)
 
     setState(oldState => ({
       ...oldState,

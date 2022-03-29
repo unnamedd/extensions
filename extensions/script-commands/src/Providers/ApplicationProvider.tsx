@@ -12,18 +12,21 @@ type ProviderState = {
   dataManager: DataManager
   filter: Filter
   commandIdentifier: string
+  reloadDropdown: boolean
 }
 
 type ContextType = {
   state: ProviderState
   setFilter: (filter: Filter) => void
   setCommandToRefresh: (identifier: string) => void
+  setReloadDropdown: (reload: boolean) => void
 }
 
 const initialState: ProviderState = {
   dataManager: DataManager.shared(),
   filter: null,
   commandIdentifier: "",
+  reloadDropdown: false
 }
 
 export const ApplicationContext = createContext<ContextType>({
@@ -34,17 +37,21 @@ export const ApplicationContext = createContext<ContextType>({
   setCommandToRefresh: () => {
     return
   },
+  setReloadDropdown: () => {
+    return
+  },
 })
 
-type Props = {
+type ApplicationProviderProps = {
   children: ReactNode
 }
 
-export const ApplicationProvider = ({ children }: Props) => {
+export const ApplicationProvider = ({ children }: ApplicationProviderProps) => {
   let toast: Toast | null
   const [state] = useState<ProviderState>(initialState)
   const [filter, setCustomFilter] = useState<Filter>(null)
   const [commandIdentifier, setCommandToRefresh] = useState<string>("")
+  const [reloadDropdown, setReloadDropdown] = useState<boolean>(false)
 
   const setFilter = async (filter: Filter) => {
     setCustomFilter(filter)
@@ -63,9 +70,11 @@ export const ApplicationProvider = ({ children }: Props) => {
           dataManager: state.dataManager,
           filter,
           commandIdentifier,
+          reloadDropdown
         },
         setFilter,
         setCommandToRefresh,
+        setReloadDropdown
       }}
       children={children}
     />

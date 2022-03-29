@@ -2,7 +2,11 @@ import { nanoid } from "nanoid"
 import { List } from "@raycast/api"
 
 import { IconConstants, StateConstants, TextConstants } from "@constants"
-import { descriptionForState, valueForFilterKind } from "@helpers"
+import {
+  descriptionForState,
+  valueForBasicFilterKind,
+  valueForFilterKind,
+} from "@helpers"
 import { useDataManager } from "@hooks"
 import { CompactGroup, Language } from "@models"
 import { Filter, FilterKind, State } from "@types"
@@ -15,14 +19,22 @@ type Props = {
 export function FilterDropdown({ onFilter }: Props): JSX.Element {
   const { dataManager } = useDataManager()
 
+  const hasNeedSetup = dataManager.hasNeedSetupCommands()
+  const hasInstalled = dataManager.hasInstalledCommands()
+
   return (
     <List.Dropdown
       tooltip={TextConstants.Filter.SelectAFilter}
       storeValue={true}
-      defaultValue="all"
+      defaultValue={valueForBasicFilterKind}
       onChange={value => onFilter(value)}>
       <AllScriptCommandsDropdownSection />
-      <StatusDropdownSection />
+      {(hasNeedSetup || hasInstalled) && (
+        <StatusDropdownSection
+          hasNeedSetup={hasNeedSetup}
+          hasInstalled={hasInstalled}
+        />
+      )}
       <LanguageDropdownSection languages={dataManager.fetchLanguages()} />
       <CategoriesDropdownSection categories={dataManager.fecthCategories()} />
     </List.Dropdown>
@@ -35,13 +47,21 @@ export function AllScriptCommandsDropdownSection(): JSX.Element {
       <List.Dropdown.Item
         key={nanoid()}
         title={TextConstants.Filter.All}
-        value={valueForFilterKind(FilterKind.All, "")}
+        value={valueForBasicFilterKind}
       />
     </List.Dropdown.Section>
   )
 }
 
-export function StatusDropdownSection(): JSX.Element {
+type StatusDropdownSectionProps = {
+  hasNeedSetup: boolean
+  hasInstalled: boolean
+}
+
+export function StatusDropdownSection({
+  hasNeedSetup,
+  hasInstalled,
+}: StatusDropdownSectionProps): JSX.Element {
   const statusInstalledTitle = descriptionForState(State.Installed)
   const statusInstalledValue = valueForFilterKind(
     FilterKind.Status,
@@ -56,18 +76,22 @@ export function StatusDropdownSection(): JSX.Element {
 
   return (
     <List.Dropdown.Section title={TextConstants.Filter.Status}>
-      <List.Dropdown.Item
-        key={nanoid()}
-        title={statusInstalledTitle}
-        value={statusInstalledValue}
-        icon={IconConstants.Installed}
-      />
-      <List.Dropdown.Item
-        key={nanoid()}
-        title={statusNeedSetupTitle}
-        value={statusNeedSetupValue}
-        icon={IconConstants.NeedSetup}
-      />
+      {hasInstalled && (
+        <List.Dropdown.Item
+          key={nanoid()}
+          title={statusInstalledTitle}
+          value={statusInstalledValue}
+          icon={IconConstants.Installed}
+        />
+      )}
+      {hasNeedSetup && (
+        <List.Dropdown.Item
+          key={nanoid()}
+          title={statusNeedSetupTitle}
+          value={statusNeedSetupValue}
+          icon={IconConstants.NeedSetup}
+        />
+      )}
     </List.Dropdown.Section>
   )
 }
@@ -106,7 +130,7 @@ export function CategoriesDropdownSection({
         <List.Dropdown.Item
           key={group.identifier}
           title={group.title}
-          value={valueForFilterKind(FilterKind.Language, group.path)}
+          value={valueForFilterKind(FilterKind.Category, group.path)}
         />
       ))}
     </List.Dropdown.Section>

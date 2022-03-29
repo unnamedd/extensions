@@ -97,13 +97,7 @@ export const useScriptCommands: UseScriptCommands = () => {
   let placeholder = "Loading Script Commands..."
 
   if (!isLoading) {
-    if (filter) {
-      placeholder = `Filter applied: ${filterDescription(filter)} (${
-        state.main.totalScriptCommands
-      })`
-    } else {
-      placeholder = `Search by name, category, or author in ${state.main.totalScriptCommands} items`
-    }
+    placeholder = `Search by name, or author in ${state.main.totalScriptCommands} items`
   }
 
   return {
@@ -119,26 +113,4 @@ export const useScriptCommands: UseScriptCommands = () => {
     setSelection,
     installPackage,
   }
-}
-
-type FilterDescription = (filter: Filter) => string | null
-
-const filterDescription: FilterDescription = filter => {
-  if (filter == null) {
-    return null
-  }
-
-  if (typeof filter == "string") {
-    return filter
-  }
-
-  switch (filter) {
-    case State.Installed:
-      return "Installed"
-
-    case State.NeedSetup:
-      return "Need Setup"
-  }
-
-  return null
 }
