@@ -7,7 +7,7 @@ import { ScriptCommand } from "@models"
 
 import { useDataManager } from "@hooks"
 
-import { Filter, State } from "@types"
+import { State } from "@types"
 
 import { languageURL, sourceCodeNormalURL } from "@urls"
 
@@ -33,7 +33,6 @@ interface UseScriptCommandProps {
   iconForLanguage: Image.ImageLike
   author: string
   sourceCodeURL: string
-  filter: Filter
   state: State
   path?: string
   isSidebarEnabled: boolean
@@ -46,7 +45,6 @@ type UseScriptCommandState = {
   uninstall: () => void
   confirmSetup: () => void
   editSourceCode: () => void
-  setFilter: (filter: Filter) => void
 }
 
 type UseScriptCommand = (
@@ -57,9 +55,7 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
   const abort = useRef<AbortController | null>(null)
   const {
     dataManager,
-    filter,
     commandIdentifier,
-    setFilter,
     setReloadDropdown,
   } = useDataManager()
 
@@ -162,7 +158,6 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
       iconForLanguage: { source: languageURL(state.scriptCommand.language) },
       author: authorDescription(state.scriptCommand),
       sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
-      filter: filter,
       state: state.commandState,
       path: file?.path,
       isSidebarEnabled: dataManager.isSidebarDetailsEnabled(),
@@ -172,7 +167,6 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
     uninstall,
     confirmSetup,
     editSourceCode,
-    setFilter,
   }
 }
 
