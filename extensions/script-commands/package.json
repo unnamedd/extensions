@@ -31,20 +31,38 @@
       "placeholder": "~/raycast/script-commands"
     },
     {
-      "name": "showSidebarDetails",
-      "type": "checkbox",
-      "required": false,
-      "label": "Show Script Commands details in sidebar",
-      "default": true,
-      "description": "Toggle the Script Command information details in the list"
-    },
-    {
       "name": "addedFolderToRaycast",
       "type": "checkbox",
       "required": true,
       "label": "I will manually add the Folder Path to Raycast Preferences",
       "default": false,
       "description": "I understood that I need to add the folder defined in the Folder Path to Raycast Preferences > Extensions > Scripts > Script Commands > Add Directories."
+    },
+    {
+      "name": "filterDropdownList",
+      "type": "dropdown",
+      "required": false,
+      "title": "Categories in Filter Dropdown",
+      "data": [
+        {
+          "title": "Show only categories",
+          "value": "only-categories"
+        },
+        {
+          "title": "Show categories and subcategories",
+          "value": "show-subcategories"
+        }
+      ],
+      "description": "Select whether you want to show only categories or also subcategories",
+      "default": "only-categories"
+    },
+    {
+      "name": "showSidebarDetails",
+      "type": "checkbox",
+      "required": false,
+      "label": "Show Script Commands details on sidebar",
+      "default": true,
+      "description": "Show extra information about the Script Command selected in a sidebar panel"
     }
   ],
   "dependencies": {

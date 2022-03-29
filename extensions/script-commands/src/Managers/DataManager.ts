@@ -281,6 +281,12 @@ export class DataManager {
   }
 
   fecthCategories(): CompactGroup[] {
+    const preference: string = getPreferenceValues().filterDropdownList
+
+    if (preference === "show-subcategories") {
+      return this.mainContent.groups
+    }
+
     return this.mainContent.parentGroups ?? []
   }
 
