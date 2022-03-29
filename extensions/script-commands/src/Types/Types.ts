@@ -66,7 +66,7 @@ export type Process = {
   total: number
 }
 
-export type Filter = State | string | null
+export type Filter = string | null
 
 export type StateResult = Result<State>
 
@@ -77,8 +77,13 @@ export type IconResultNullable = IconResult | null
 export type FileNullable = File | null
 
 export enum FilterKind {
-  All,
+  Basic,
   Category,
   Language,
   Status,
+}
+
+export interface FilterObject {
+  kind: FilterKind
+  value: string
 }

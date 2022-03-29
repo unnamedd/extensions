@@ -1,27 +1,4 @@
 import {
-  CompactGroup,
-  Language,
-  MainCompactGroup,
-  ScriptCommand,
-} from "@models"
-
-import { fetchReadme, fetchScriptCommands, fetchSourceCode } from "@network"
-
-import { ContentStore } from "@stores"
-
-import { ScriptCommandManager, Settings } from "@managers"
-
-import {
-  Content,
-  FileNullable,
-  Filter,
-  Process,
-  Progress,
-  State,
-  StateResult,
-} from "@types"
-
-import {
   constants,
   accessSync,
   existsSync,
@@ -33,6 +10,39 @@ import {
 } from "fs"
 
 import { getPreferenceValues } from "@raycast/api"
+
+import { FilterKindConstants } from "@constants"
+
+import {
+  descriptionForState,
+  stateFromString,
+  valueForBasicFilterKind,
+} from "@helpers"
+
+import { ScriptCommandManager, Settings } from "@managers"
+
+import {
+  CompactGroup,
+  Language,
+  MainCompactGroup,
+  ScriptCommand,
+} from "@models"
+
+import { fetchReadme, fetchScriptCommands, fetchSourceCode } from "@network"
+
+import { ContentStore } from "@stores"
+
+import {
+  Content,
+  FileNullable,
+  Filter,
+  FilterKind,
+  FilterObject,
+  Process,
+  Progress,
+  State,
+  StateResult,
+} from "@types"
 
 export class DataManager {
   private static instance = new DataManager()
@@ -217,6 +227,59 @@ export class DataManager {
     return state
   }
 
+  private buildFilterObject(value: string): FilterObject {
+    const dictionary = this.keyPairValuesFrom(value)
+
+    const object: FilterObject = {
+      kind: FilterKind.Basic,
+      value: dictionary.value,
+    }
+
+    if (dictionary.key === FilterKindConstants.Category) {
+      object.kind = FilterKind.Category
+    } else if (dictionary.key === FilterKindConstants.Language) {
+      object.kind = FilterKind.Language
+    } else if (dictionary.key === FilterKindConstants.Status) {
+      object.kind = FilterKind.Status
+    }
+
+    return object
+  }
+
+  private keyPairValuesFrom(content: string): { key: string; value: string } {
+    if (!content.includes("|")) {
+      content = valueForBasicFilterKind
+    }
+
+    const index = content.indexOf("|")
+
+    const key = content.substring(0, index)
+    const value = content.substring(index + 1, content.length)
+
+    return {
+      key: key,
+      value: value,
+    }
+  }
+
+  hasNeedSetupCommands(): boolean {
+    const content = this.contentManager.getContent()
+    let total = 0
+
+    Object.values(content).forEach(item => {
+      if (item.needsSetup === true) {
+        total += 1
+      }
+    })
+
+    return total > 0
+  }
+
+  hasInstalledCommands(): boolean {
+    const content = this.contentManager.getContent()
+    return Object.values(content).length > 0
+  }
+
   fecthCategories(): CompactGroup[] {
     return this.mainContent.parentGroups ?? []
   }
@@ -257,7 +320,26 @@ export class DataManager {
       return data
     }
 
-    if (typeof filter === "string") {
+    const filterObject = this.buildFilterObject(filter)
+
+    if (filterObject.kind == FilterKind.Category) {
+      const groups: CompactGroup[] = []
+
+      data.groups.forEach(group => {
+        const groupCopy = { ...group }
+
+        if (
+          (groupCopy.parentPath &&
+            groupCopy.parentPath === filterObject.value) ||
+          groupCopy.path === filterObject.value
+        ) {
+          groups.push(groupCopy)
+          data.totalScriptCommands += groupCopy.scriptCommands.length
+        }
+      })
+
+      data.groups = groups
+    } else if (filterObject.kind == FilterKind.Language) {
       const groups: CompactGroup[] = []
 
       data.groups.forEach(group => {
@@ -265,7 +347,7 @@ export class DataManager {
         groupCopy.scriptCommands = []
 
         group.scriptCommands.forEach(scriptCommand => {
-          if (scriptCommand.language == filter) {
+          if (scriptCommand.language == filterObject.value) {
             groupCopy.scriptCommands.push(scriptCommand)
           }
         })
@@ -286,20 +368,22 @@ export class DataManager {
       )
 
       data.groups = groups
-    } else {
+    } else if (filterObject.kind == FilterKind.Status) {
       const content = this.contentManager.getContent()
+      const state = stateFromString(filterObject.value)
 
       const group: CompactGroup = {
         identifier: "installed-script-commands",
-        title: "Installed",
+        path: "installed",
+        title: descriptionForState(state),
         subtitle: "Script Commands",
         scriptCommands: [],
       }
 
       Object.values(content).forEach(item => {
         if (
-          (filter === State.NeedSetup && item.needsSetup === true) ||
-          filter === State.Installed
+          (state === State.NeedSetup && item.needsSetup === true) ||
+          state === State.Installed
         ) {
           group.scriptCommands.push(item.scriptCommand)
         }
@@ -318,7 +402,7 @@ export class DataManager {
         totalScriptCommands: group.scriptCommands.length,
         languages: [],
       }
-    }
+    } 
 
     return data
   }

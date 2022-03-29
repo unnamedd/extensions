@@ -1,4 +1,5 @@
 import fetch from "node-fetch"
+import { nanoid } from "nanoid"
 
 import { showToast, Toast } from "@raycast/api"
 
@@ -28,7 +29,7 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
       groups: [],
       totalScriptCommands: object.totalScriptCommands,
       languages: object.languages,
-      parentGroups: []
+      parentGroups: [],
     }
 
     object.groups.sort((left: Group, right: Group) =>
@@ -37,12 +38,12 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
 
     object.groups.forEach(group => {
       main.parentGroups?.push({
-        identifier: group.path,
+        identifier: nanoid(),
         path: group.path,
         title: group.name,
-        scriptCommands: []
+        scriptCommands: [],
       })
-      
+
       main.groups.push(flattenGroups(group))
 
       if (group.subGroups && group.subGroups.length > 0) {
@@ -80,6 +81,7 @@ const flattenGroups: FlattenGroups = (group, parentGroupName = undefined) => {
   let identifier: string = group.path
   let title: string = group.name
   let subtitle: string | undefined = undefined
+  let parentPath: string | undefined
 
   if (parentGroupName && parentGroupName.length > 0) {
     const key = parentGroupName.replace(" ", "-").toLowerCase()
@@ -87,6 +89,7 @@ const flattenGroups: FlattenGroups = (group, parentGroupName = undefined) => {
     identifier = `${key}-${group.path}`
     title = group.name
     subtitle = parentGroupName
+    parentPath = key
   }
 
   const compactGroup: CompactGroup = {
@@ -94,6 +97,7 @@ const flattenGroups: FlattenGroups = (group, parentGroupName = undefined) => {
     title: title,
     subtitle: subtitle,
     path: identifier,
+    parentPath: parentPath,
     readme: group.readme,
     scriptCommands: group.scriptCommands,
   }

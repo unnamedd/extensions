@@ -7,6 +7,7 @@ export type {
   FileNullable,
   Files,
   Filter,
+  FilterObject,
   Process,
   IconPathNullable,
   IconResultNullable,

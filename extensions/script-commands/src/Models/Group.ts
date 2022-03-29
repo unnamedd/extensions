@@ -10,6 +10,7 @@ export interface Group {
 
 export interface CompactGroup {
   identifier: string
+  parentPath?: string
   path: string
   title: string
   subtitle?: string
