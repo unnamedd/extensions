@@ -2,7 +2,6 @@ import { ActionPanel, List, showHUD } from "@raycast/api"
 
 import {
   AuthorsActionPanel,
-  FiltersActionPanel,
   ManagementActionPanel,
   ReadmeActionPanel,
   StoreToast,
@@ -115,7 +114,6 @@ export function ScriptCommandItem({
           {group.readme && group.readme.length > 0 && (
             <ReadmeActionPanel group={group} />
           )}
-          <FiltersActionPanel filter={props.filter} onFilter={setFilter} />
         </ActionPanel>
       }
     />
