@@ -12,7 +12,7 @@ type Props = {
   scriptCommand: ScriptCommand
 }
 
-export function SourceCodeDetail({ scriptCommand }: Props): JSX.Element {
+export function SourceCodeDetails({ scriptCommand }: Props): JSX.Element {
   const {
     title,
     filename,
@@ -33,6 +33,7 @@ export function SourceCodeDetail({ scriptCommand }: Props): JSX.Element {
       metadata={
         <Detail.Metadata>
           <Detail.Metadata.Label title="File" text={filename} />
+          <Detail.Metadata.Separator />
           <Detail.Metadata.Label title="Created at" text={createdAt} />
           <Detail.Metadata.Label title="Updated at" text={updatedAt} />
           <Detail.Metadata.Separator />

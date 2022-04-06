@@ -1,4 +1,4 @@
-import { ReadmeDetail } from "@components"
+import { ReadmeDetails } from "@components"
 
 import { IconConstants, ShortcutConstants } from "@constants"
 
@@ -16,7 +16,7 @@ export function ViewReadmeActionItem({ group }: Props): JSX.Element {
       icon={IconConstants.Readme}
       shortcut={ShortcutConstants.ViewReadme}
       title="View README"
-      target={<ReadmeDetail group={group} />}
+      target={<ReadmeDetails group={group} />}
     />
   )
 }

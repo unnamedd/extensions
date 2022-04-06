@@ -17,8 +17,8 @@ export { ManagementActionPanel } from "./Action/Panels/ManagementActionPanel"
 export { PackageToast } from "./Common/PackageToast"
 export { StoreToast } from "./Common/StoreToast"
 
-export { ReadmeDetail } from "./Details/ReadmeDetail"
-export { SourceCodeDetail } from "./Details/SourceCodeDetail"
+export { ReadmeDetails } from "./Details/ReadmeDetails"
+export { SourceCodeDetails } from "./Details/SourceCodeDetails"
 
 export { FilterDropdown } from "./Dropdown/FilterDropdown"
 

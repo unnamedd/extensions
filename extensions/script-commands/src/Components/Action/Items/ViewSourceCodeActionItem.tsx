@@ -1,4 +1,4 @@
-import { SourceCodeDetail } from "@components"
+import { SourceCodeDetails } from "@components"
 
 import { IconConstants, ShortcutConstants } from "@constants"
 
@@ -18,7 +18,7 @@ export function ViewSourceCodeActionItem({
       icon={IconConstants.SourceCode}
       shortcut={ShortcutConstants.ViewSourceCode}
       title="View Source Code"
-      target={<SourceCodeDetail scriptCommand={scriptCommand} />}
+      target={<SourceCodeDetails scriptCommand={scriptCommand} />}
     />
   )
 }

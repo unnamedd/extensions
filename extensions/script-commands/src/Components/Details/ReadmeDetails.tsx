@@ -8,7 +8,7 @@ type Props = {
   group: CompactGroup
 }
 
-export function ReadmeDetail({ group }: Props): JSX.Element {
+export function ReadmeDetails({ group }: Props): JSX.Element {
   const { title, isLoading, readmeURL, content } = useReadme(group)
 
   return (
