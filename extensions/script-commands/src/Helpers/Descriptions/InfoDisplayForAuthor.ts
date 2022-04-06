@@ -11,6 +11,7 @@ export type InfoDisplayForAuthor = (author: Author) => {
   name: string
   icon: Image.ImageLike
   url?: string
+  socialMedia?: string
 }
 
 export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
@@ -24,6 +25,7 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
       name: name,
       icon: avatarImage(),
       url: undefined,
+      socialMedia: undefined,
     }
   }
 
@@ -39,11 +41,16 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
 
   if (checkIsValidURL(url)) {
     const path = new URL(url)
+    let socialMedia: string | undefined
 
-    if (path.host === "twitter.com") {
-      name = `${name} (Twitter)`
-    } else if (path.host === "github.com") {
-      name = `${name} (GitHub)`
+    if (path.host === "twitter.com" || path.host === "www.twitter.com") {
+      socialMedia = "Twitter"
+    } else if (path.host === "github.com" || path.host === "www.github.com") {
+      socialMedia = "GitHub"
+    }
+
+    if (socialMedia) {
+      name = `${name} (${socialMedia})`
     }
 
     return {
@@ -51,6 +58,7 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
       name: name,
       icon: avatarImage(url),
       url: url,
+      socialMedia: socialMedia,
     }
   }
 
@@ -59,5 +67,6 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
     name: name,
     icon: avatarImage(),
     url: undefined,
+    socialMedia: undefined,
   }
 }

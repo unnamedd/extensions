@@ -65,10 +65,16 @@ export function ScriptCommandItem({
   } else {
     subtitle = props.subtitle
     if (props.iconForState) {
-      accessories.push({ icon: props.iconForState })
+      accessories.push({
+        icon: props.iconForState,
+        tooltip: props.stateDescription,
+      })
     }
-    accessories.push({ text: props.author })
-    accessories.push({ icon: props.iconForLanguage })
+    accessories.push({ text: props.author, tooltip: props.authorSocialMedia })
+    accessories.push({
+      icon: props.iconForLanguage,
+      tooltip: props.languageDisplayName,
+    })
   }
 
   if (group.subtitle) {

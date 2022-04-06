@@ -15,8 +15,11 @@ import {
   descriptionForState,
   iconForScriptCommand,
   iconForState,
+  infoDisplayForAuthor,
   keywordsForScriptCommand,
 } from "@helpers"
+
+import { DataManager } from "@managers"
 
 type ScriptCommandState = {
   commandState: State
@@ -31,7 +34,10 @@ interface UseScriptCommandProps {
   icon: Image.ImageLike
   iconForState: Image.ImageLike | undefined
   iconForLanguage: Image.ImageLike
+  stateDescription: string
+  languageDisplayName: string
   author: string
+  authorSocialMedia: string | undefined
   sourceCodeURL: string
   state: State
   path?: string
@@ -53,11 +59,7 @@ type UseScriptCommand = (
 
 export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
   const abort = useRef<AbortController | null>(null)
-  const {
-    dataManager,
-    commandIdentifier,
-    setReloadDropdown,
-  } = useDataManager()
+  const { dataManager, commandIdentifier, setReloadDropdown } = useDataManager()
 
   const [state, setState] = useState<ScriptCommandState>({
     commandState: dataManager.stateFor(initialScriptCommand.identifier),
@@ -156,7 +158,13 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
           ? undefined
           : iconForState(state.commandState),
       iconForLanguage: { source: languageURL(state.scriptCommand.language) },
+      stateDescription: descriptionForState(state.commandState),
+      languageDisplayName: languageDisplayName(
+        dataManager,
+        state.scriptCommand
+      ),
       author: authorDescription(state.scriptCommand),
+      authorSocialMedia: authorSocialMedia(state.scriptCommand),
       sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
       state: state.commandState,
       path: file?.path,
@@ -199,6 +207,51 @@ const authorDescription: AuthorDescription = scriptCommand => {
   })
 
   return content
+}
+
+type AuthorSocialMedia = (scriptCommand: ScriptCommand) => string | undefined
+
+const authorSocialMedia: AuthorSocialMedia = scriptCommand => {
+  let authorSocialMedia: string | undefined
+
+  const authors = scriptCommand.authors
+
+  if (authors && authors.length == 1) {
+    const author = authors[0]
+    const authorInfo = infoDisplayForAuthor(author)
+
+    if (authorInfo.socialMedia) {
+      authorSocialMedia = authorInfo.socialMedia
+    }
+  }
+
+  return authorSocialMedia
+}
+
+// ###########################################################################
+// ###########################################################################
+
+type LanguageDisplayName = (
+  dataManager: DataManager,
+  scriptCommand: ScriptCommand
+) => string
+
+const languageDisplayName: LanguageDisplayName = (
+  dataManager,
+  scriptCommand
+) => {
+  const language = dataManager.fetchLanguage(scriptCommand.language)
+  let languageDisplayName = scriptCommand.language
+
+  // Hack to make the first letter uppercased
+  languageDisplayName =
+    languageDisplayName.charAt(0).toUpperCase() + languageDisplayName.slice(1)
+
+  if (language) {
+    languageDisplayName = language.displayName
+  }
+
+  return languageDisplayName
 }
 
 // ###########################################################################
