@@ -14,9 +14,11 @@ export function MainContent(): JSX.Element {
   return (
     <List
       isLoading={props.isLoading}
-      isShowingDetail={props.isSidebarEnabled}
+      isShowingDetail={!props.isLoading && props.isSidebarEnabled}
       onSelectionChange={setSelection}
-      searchBarAccessory={<FilterDropdown onFilter={setFilter} />}
+      searchBarAccessory={
+        !props.isLoading && <FilterDropdown onFilter={setFilter} />
+      }
       searchBarPlaceholder={props.placeholder}
       children={props.groups.map(group => (
         <GroupSection
