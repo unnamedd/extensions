@@ -60,7 +60,10 @@ export function ScriptCommandItem({
   if (props.isSidebarEnabled) {
     detailsContent = details
     if (props.iconForState) {
-      accessories.push({ icon: props.iconForState })
+      accessories.push({
+        icon: props.iconForState,
+        tooltip: props.stateDescription,
+      })
     }
   } else {
     subtitle = props.subtitle
