@@ -100,8 +100,7 @@ export const useScriptCommands: UseScriptCommands = () => {
   let placeholder = "Loading Script Commands..."
 
   if (!isLoading) {
-    const plural = totalScriptCommands == 1 ? "" : "s"
-    placeholder = `Search by name, or author in ${totalScriptCommands} item${plural}`
+    placeholder = `Search by name, or author`
   }
 
   return {
