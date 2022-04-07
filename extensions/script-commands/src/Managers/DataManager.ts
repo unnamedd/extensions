@@ -52,6 +52,8 @@ export class DataManager {
   private settings = new Settings()
   private mainContent: MainCompactGroup
 
+  totalScriptCommands = 0
+
   static shared(): DataManager {
     return this.instance
   }
@@ -314,6 +316,7 @@ export class DataManager {
     }
 
     this.mainContent = await fetchScriptCommands()
+    this.totalScriptCommands = this.mainContent.totalScriptCommands
 
     return this.mainContent
   }

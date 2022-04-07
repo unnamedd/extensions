@@ -20,6 +20,10 @@ export function FilterDropdown({ onFilter }: Props): JSX.Element {
 
   const hasNeedSetup = dataManager.hasNeedSetupCommands()
   const hasInstalled = dataManager.hasInstalledCommands()
+  
+  const languages = dataManager.fetchLanguages()
+  const categories = dataManager.fecthCategories()
+  const totalScriptCommands = dataManager.totalScriptCommands
 
   return (
     <List.Dropdown
@@ -27,15 +31,15 @@ export function FilterDropdown({ onFilter }: Props): JSX.Element {
       storeValue={true}
       defaultValue={valueForBasicFilterKind}
       onChange={value => onFilter(value)}>
-      <AllScriptCommandsDropdownSection />
+      <AllScriptCommandsDropdownSection total={totalScriptCommands} />
       {(hasNeedSetup || hasInstalled) && (
         <StatusDropdownSection
           hasNeedSetup={hasNeedSetup}
           hasInstalled={hasInstalled}
         />
       )}
-      <LanguageDropdownSection languages={dataManager.fetchLanguages()} />
-      <CategoriesDropdownSection categories={dataManager.fecthCategories()} />
+      <LanguageDropdownSection languages={languages} />
+      <CategoriesDropdownSection categories={categories} />
     </List.Dropdown>
   )
 }

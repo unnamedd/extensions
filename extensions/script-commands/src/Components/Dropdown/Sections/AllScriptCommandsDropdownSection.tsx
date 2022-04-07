@@ -4,12 +4,22 @@ import { List } from "@raycast/api"
 import { TextConstants } from "@constants"
 import { valueForBasicFilterKind } from "@helpers"
 
-export function AllScriptCommandsDropdownSection(): JSX.Element {
+type Props = {
+  total: number
+}
+
+export function AllScriptCommandsDropdownSection({ total }: Props): JSX.Element {
+  let totalDescription = ""
+
+  if (total > 0) {
+    totalDescription = ` (${total})`
+  }
+
   return (
     <List.Dropdown.Section>
       <List.Dropdown.Item
         key={nanoid()}
-        title={TextConstants.Filter.All}
+        title={TextConstants.Filter.All + totalDescription}
         value={valueForBasicFilterKind}
       />
     </List.Dropdown.Section>
