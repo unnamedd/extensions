@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react"
+import { Image, List } from "@raycast/api"
 import moment from "moment"
 
-import { Image } from "@raycast/api"
-
-import { ScriptCommand } from "@models"
+import { ScriptCommand, CompactGroup } from "@models"
 
 import { useDataManager } from "@hooks"
 
-import { State } from "@types"
+import { State} from "@types"
 
 import { languageURL, sourceCodeNormalURL } from "@urls"
 
@@ -24,20 +23,15 @@ import { DataManager } from "@managers"
 type ScriptCommandState = {
   commandState: State
   scriptCommand: ScriptCommand
+  group: CompactGroup
 }
 
 interface UseScriptCommandProps {
   identifier: string
   title: string
-  subtitle: string
+  subtitle?: string
   keywords: string[]
   icon: Image.ImageLike
-  iconForState: Image.ImageLike | undefined
-  iconForLanguage: Image.ImageLike
-  stateDescription: string
-  languageDisplayName: string
-  author: string
-  authorSocialMedia: string | undefined
   sourceCodeURL: string
   state: State
   path?: string
@@ -46,7 +40,8 @@ interface UseScriptCommandProps {
 
 type UseScriptCommandState = {
   props: UseScriptCommandProps
-  details: string
+  details?: string
+  accessories: List.Item.Accessory[]
   install: () => void
   uninstall: () => void
   confirmSetup: () => void
@@ -54,17 +49,22 @@ type UseScriptCommandState = {
 }
 
 type UseScriptCommand = (
-  initialScriptCommand: ScriptCommand
+  initialScriptCommand: ScriptCommand,
+  initialGroup: CompactGroup
 ) => UseScriptCommandState
 
-export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
+export const useScriptCommand: UseScriptCommand = (initialScriptCommand, initialGroup) => {
   const abort = useRef<AbortController | null>(null)
   const { dataManager, commandIdentifier, setReloadDropdown } = useDataManager()
 
   const [state, setState] = useState<ScriptCommandState>({
     commandState: dataManager.stateFor(initialScriptCommand.identifier),
     scriptCommand: initialScriptCommand,
+    group: initialGroup
   })
+
+  const file = dataManager.commandFileFor(state.scriptCommand.identifier)
+  const isSidebarEnabled = dataManager.isSidebarDetailsEnabled()
 
   useEffect(() => {
     abort.current?.abort()
@@ -89,6 +89,15 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
       abort.current?.abort()
     }
   }, [state])
+
+  useEffect(() => {
+    if (state.scriptCommand.identifier == commandIdentifier) {
+      setState(oldState => ({
+        ...oldState,
+        commandState: dataManager.stateFor(state.scriptCommand.identifier),
+      }))
+    }
+  }, [commandIdentifier])
 
   const install = async () => {
     setReloadDropdown(false)
@@ -132,45 +141,23 @@ export const useScriptCommand: UseScriptCommand = initialScriptCommand => {
     )
   }
 
-  const file = dataManager.commandFileFor(state.scriptCommand.identifier)
-
-  useEffect(() => {
-    if (state.scriptCommand.identifier == commandIdentifier) {
-      setState(oldState => ({
-        ...oldState,
-        commandState: dataManager.stateFor(state.scriptCommand.identifier),
-      }))
-    }
-  }, [commandIdentifier])
-
   return {
     props: {
       identifier: state.scriptCommand.identifier,
       title: state.scriptCommand.title,
-      subtitle: state.scriptCommand.packageName ?? "",
+      subtitle: isSidebarEnabled ? state.scriptCommand.packageName : undefined,
       keywords: keywordsForScriptCommand(
         state.scriptCommand,
         state.commandState
       ),
       icon: iconForScriptCommand(state.scriptCommand),
-      iconForState:
-        state.commandState === State.NotInstalled
-          ? undefined
-          : iconForState(state.commandState),
-      iconForLanguage: { source: languageURL(state.scriptCommand.language) },
-      stateDescription: descriptionForState(state.commandState),
-      languageDisplayName: languageDisplayName(
-        dataManager,
-        state.scriptCommand
-      ),
-      author: authorDescription(state.scriptCommand),
-      authorSocialMedia: authorSocialMedia(state.scriptCommand),
       sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
       state: state.commandState,
       path: file?.path,
-      isSidebarEnabled: dataManager.isSidebarDetailsEnabled(),
+      isSidebarEnabled: isSidebarEnabled,
     },
-    details: details(state),
+    details: isSidebarEnabled ? details(state) : undefined,
+    accessories: accessoriesForState(state, dataManager),
     install,
     uninstall,
     confirmSetup,
@@ -231,6 +218,51 @@ const authorSocialMedia: AuthorSocialMedia = scriptCommand => {
 // ###########################################################################
 // ###########################################################################
 
+type AccessoriesForState = (
+  state: ScriptCommandState,
+  dataManager: DataManager
+) => List.Item.Accessory[]
+
+const accessoriesForState: AccessoriesForState = (state, dataManager) => {
+  const icon =
+    state.commandState === State.NotInstalled
+      ? undefined
+      : iconForState(state.commandState)
+
+  const description = descriptionForState(state.commandState)
+
+  const accessories: List.Item.Accessory[] = []
+
+  if (dataManager.isSidebarDetailsEnabled()) {
+    if (icon) {
+      accessories.push({
+        icon: icon,
+        tooltip: description,
+      })
+    }
+  } else {
+    if (icon) {
+      accessories.push({
+        icon: icon,
+        tooltip: description,
+      })
+    }
+    accessories.push({
+      text: authorDescription(state.scriptCommand),
+      tooltip: authorSocialMedia(state.scriptCommand),
+    })
+    accessories.push({
+      icon: { source: languageURL(state.scriptCommand.language) },
+      tooltip: languageDisplayName(dataManager, state.scriptCommand),
+    })
+  }
+
+  return accessories
+}
+
+// ###########################################################################
+// ###########################################################################
+
 type LanguageDisplayName = (
   dataManager: DataManager,
   scriptCommand: ScriptCommand
@@ -266,6 +298,10 @@ const details: Details = state => {
   const scriptCommand = state.scriptCommand
 
   let content = ""
+
+  if (state.group.subtitle) {
+    content += `${state.group.subtitle} > `
+  }
 
   if (scriptCommand.packageName) {
     content += `**${scriptCommand.packageName}**\n\n`

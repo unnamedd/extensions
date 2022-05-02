@@ -25,8 +25,15 @@ export function ScriptCommandItem({
   group,
   onInstallPackage,
 }: Props): JSX.Element {
-  const { props, details, install, uninstall, confirmSetup, editSourceCode } =
-    useScriptCommand(scriptCommand)
+  const {
+    props,
+    details,
+    accessories,
+    install,
+    uninstall,
+    confirmSetup,
+    editSourceCode,
+  } = useScriptCommand(scriptCommand, group)
 
   const handleInstall = async () => {
     await StoreToast(props.state, Progress.InProgress, scriptCommand.title)
@@ -53,37 +60,6 @@ export function ScriptCommandItem({
     showHUD(`Opening ${props.title}'s local source code to be edited...`)
   }
 
-  let subtitle: undefined | string
-  let detailsContent: undefined | string
-
-  const accessories: List.Item.Accessory[] = []
-  if (props.isSidebarEnabled) {
-    detailsContent = details
-    if (props.iconForState) {
-      accessories.push({
-        icon: props.iconForState,
-        tooltip: props.stateDescription,
-      })
-    }
-  } else {
-    subtitle = props.subtitle
-    if (props.iconForState) {
-      accessories.push({
-        icon: props.iconForState,
-        tooltip: props.stateDescription,
-      })
-    }
-    accessories.push({ text: props.author, tooltip: props.authorSocialMedia })
-    accessories.push({
-      icon: props.iconForLanguage,
-      tooltip: props.languageDisplayName,
-    })
-  }
-
-  if (group.subtitle) {
-    detailsContent = `${group.subtitle} > ${detailsContent}`
-  }
-
   return (
     <List.Item
       id={props.identifier}
@@ -91,11 +67,9 @@ export function ScriptCommandItem({
       icon={props.icon}
       keywords={props.keywords}
       title={props.title}
-      subtitle={subtitle}
+      subtitle={props.subtitle}
       accessories={accessories}
-      detail={
-        props.isSidebarEnabled && <List.Item.Detail markdown={detailsContent} />
-      }
+      detail={details && <List.Item.Detail markdown={details} />}
       actions={
         <ActionPanel title={props.title}>
           <ManagementActionPanel
@@ -112,7 +86,9 @@ export function ScriptCommandItem({
             url={props.sourceCodeURL}
             scriptCommand={scriptCommand}
           />
-          <AuthorsActionPanel authors={scriptCommand.authors ?? []} />
+          {scriptCommand.authors && scriptCommand.authors.length > 0 && (
+            <AuthorsActionPanel authors={scriptCommand.authors} />
+          )}
           {group.readme && group.readme.length > 0 && (
             <ReadmeActionPanel group={group} />
           )}
