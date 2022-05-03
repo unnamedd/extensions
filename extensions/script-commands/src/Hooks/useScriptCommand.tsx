@@ -6,7 +6,7 @@ import { ScriptCommand, CompactGroup } from "@models"
 
 import { useDataManager } from "@hooks"
 
-import { State} from "@types"
+import { AuthorWidgetStyle, State } from "@types"
 
 import { languageURL, sourceCodeNormalURL } from "@urls"
 
@@ -247,15 +247,56 @@ const accessoriesForState: AccessoriesForState = (state, dataManager) => {
         tooltip: description,
       })
     }
-    accessories.push({
-      text: authorDescription(state.scriptCommand),
-      tooltip: authorSocialMedia(state.scriptCommand),
-    })
+
+    const widgetStyle = dataManager.authorWidgetStyle()
+    const authorsWidget = authorsAccessories(state.scriptCommand, widgetStyle)
+
+    if (authorsWidget) {
+      authorsWidget.forEach(accessory => accessories.push(accessory))
+    }
+
     accessories.push({
       icon: { source: languageURL(state.scriptCommand.language) },
       tooltip: languageDisplayName(dataManager, state.scriptCommand),
     })
   }
+
+  return accessories
+}
+
+type AuthorsAccessories = (
+  scriptCommand: ScriptCommand,
+  widgetStyle: AuthorWidgetStyle
+) => List.Item.Accessory[] | undefined
+
+const authorsAccessories: AuthorsAccessories = (scriptCommand, widgetStyle) => {
+  if (!scriptCommand.authors) {
+    return undefined
+  }
+
+  const accessories: List.Item.Accessory[] = []
+
+  scriptCommand.authors.forEach(author => {
+    const info = infoDisplayForAuthor(author)
+
+    if (widgetStyle == AuthorWidgetStyle.OnlyName) {
+      accessories.push({
+        text: info.name,
+        tooltip: info.socialMedia,
+      })
+    } else if (widgetStyle == AuthorWidgetStyle.OnlyAvatar) {
+      accessories.push({
+        icon: info.icon,
+        tooltip: info.name,
+      })
+    } else if (widgetStyle == AuthorWidgetStyle.AvatarAndName) {
+      accessories.push({
+        icon: info.icon,
+        text: info.name,
+        tooltip: info.socialMedia,
+      })
+    }
+  })
 
   return accessories
 }

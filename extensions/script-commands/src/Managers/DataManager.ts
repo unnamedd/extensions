@@ -33,6 +33,7 @@ import { fetchReadme, fetchScriptCommands, fetchSourceCode } from "@network"
 import { ContentStore } from "@stores"
 
 import {
+  AuthorWidgetStyle,
   Content,
   FileNullable,
   Filter,
@@ -153,6 +154,24 @@ export class DataManager {
 
   isSidebarDetailsEnabled(): boolean {
     return getPreferenceValues().showSidebarDetails
+  }
+
+  authorWidgetStyle(): AuthorWidgetStyle {
+    const widgetValue = getPreferenceValues().authorsListItemWidget
+
+    if (typeof widgetValue === "string") {
+      if (widgetValue === "only-name") {
+        return AuthorWidgetStyle.OnlyName
+      }
+      else if (widgetValue === "only-avatar") {
+        return AuthorWidgetStyle.OnlyAvatar
+      }
+      else if (widgetValue === "avatar-and-name") {
+        return AuthorWidgetStyle.AvatarAndName    
+      }
+    }
+
+    return AuthorWidgetStyle.AvatarAndName
   }
 
   monitorChangesFor(

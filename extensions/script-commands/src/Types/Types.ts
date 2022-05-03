@@ -87,3 +87,9 @@ export interface FilterObject {
   kind: FilterKind
   value: string
 }
+
+export enum AuthorWidgetStyle {
+  OnlyName,
+  OnlyAvatar,
+  AvatarAndName
+}
