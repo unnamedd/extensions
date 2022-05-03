@@ -63,6 +63,28 @@
       "label": "Show Script Commands details on sidebar",
       "default": true,
       "description": "Show extra information about the Script Command selected in a sidebar panel"
+    },
+    {
+      "name": "authorsListItemWidget",
+      "type": "dropdown",
+      "required": false,
+      "title": "Show Author(s) in List",
+      "data": [
+        {
+          "title": "Only Name",
+          "value": "only-name"
+        },
+        {
+          "title": "Only Avatar",
+          "value": "only-avatar"
+        },
+        {
+          "title": "Avatar and Name",
+          "value": "avatar-and-name"
+        }
+      ],
+      "description": "Select whether you want to show only names, avatars or avatar and name",
+      "default": "only-categories"
     }
   ],
   "dependencies": {
