@@ -7,15 +7,18 @@ import { Author } from "@models"
 import { checkIsValidURL } from "@urls"
 
 export type InfoDisplayForAuthor = (author: Author) => {
+  /** Auto generated unique identifier */
   identifier: string
   name: string
+  /** Concatenate the author name and social media (if exists), otherwise shows only the name  */
+  nameAndSocialMedia: string
   icon: Image.ImageLike
   url?: string
   socialMedia?: string
 }
 
 export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
-  let name = author.name ?? "Raycast"
+  const name = author.name ?? "Raycast"
   let url = author.url
   const identifier = nanoid()
 
@@ -23,6 +26,7 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
     return {
       identifier: identifier,
       name: name,
+      nameAndSocialMedia: name,
       icon: avatarImage(),
       url: undefined,
       socialMedia: undefined,
@@ -49,13 +53,15 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
       socialMedia = "GitHub"
     }
 
+    let nameAndSocialMedia = name
     if (socialMedia) {
-      name = `${name} (${socialMedia})`
+      nameAndSocialMedia = `${name} (${socialMedia})`
     }
 
     return {
       identifier: `${identifier}-${url}`,
       name: name,
+      nameAndSocialMedia: nameAndSocialMedia,
       icon: avatarImage(url),
       url: url,
       socialMedia: socialMedia,
@@ -65,6 +71,7 @@ export const infoDisplayForAuthor: InfoDisplayForAuthor = author => {
   return {
     identifier: identifier,
     name: name,
+    nameAndSocialMedia: name,
     icon: avatarImage(),
     url: undefined,
     socialMedia: undefined,
