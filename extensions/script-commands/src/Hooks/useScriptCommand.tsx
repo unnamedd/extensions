@@ -53,14 +53,17 @@ type UseScriptCommand = (
   initialGroup: CompactGroup
 ) => UseScriptCommandState
 
-export const useScriptCommand: UseScriptCommand = (initialScriptCommand, initialGroup) => {
+export const useScriptCommand: UseScriptCommand = (
+  initialScriptCommand,
+  initialGroup
+) => {
   const abort = useRef<AbortController | null>(null)
   const { dataManager, commandIdentifier, setReloadDropdown } = useDataManager()
 
   const [state, setState] = useState<ScriptCommandState>({
     commandState: dataManager.stateFor(initialScriptCommand.identifier),
     scriptCommand: initialScriptCommand,
-    group: initialGroup
+    group: initialGroup,
   })
 
   const file = dataManager.commandFileFor(state.scriptCommand.identifier)
@@ -145,7 +148,7 @@ export const useScriptCommand: UseScriptCommand = (initialScriptCommand, initial
     props: {
       identifier: state.scriptCommand.identifier,
       title: state.scriptCommand.title,
-      subtitle: isSidebarEnabled ? state.scriptCommand.packageName : undefined,
+      subtitle: isSidebarEnabled ? undefined : state.scriptCommand.packageName,
       keywords: keywordsForScriptCommand(
         state.scriptCommand,
         state.commandState
@@ -156,63 +159,13 @@ export const useScriptCommand: UseScriptCommand = (initialScriptCommand, initial
       path: file?.path,
       isSidebarEnabled: isSidebarEnabled,
     },
-    details: isSidebarEnabled ? details(state) : undefined,
+    details: isSidebarEnabled ? details(state, dataManager) : undefined,
     accessories: accessoriesForState(state, dataManager),
     install,
     uninstall,
     confirmSetup,
     editSourceCode,
   }
-}
-
-// ###########################################################################
-// ###########################################################################
-
-type AuthorDescription = (scriptCommand: ScriptCommand) => string
-
-const authorDescription: AuthorDescription = scriptCommand => {
-  const defaultAuthor = "Raycast"
-
-  if (!scriptCommand.authors) {
-    return defaultAuthor
-  }
-
-  const authors = scriptCommand.authors
-
-  if (authors.length == 0) {
-    return defaultAuthor
-  }
-
-  let content = ""
-
-  authors.forEach(author => {
-    if (content.length > 0) {
-      content += " and "
-    }
-
-    content += author.name
-  })
-
-  return content
-}
-
-type AuthorSocialMedia = (scriptCommand: ScriptCommand) => string | undefined
-
-const authorSocialMedia: AuthorSocialMedia = scriptCommand => {
-  let authorSocialMedia: string | undefined
-
-  const authors = scriptCommand.authors
-
-  if (authors && authors.length == 1) {
-    const author = authors[0]
-    const authorInfo = infoDisplayForAuthor(author)
-
-    if (authorInfo.socialMedia) {
-      authorSocialMedia = authorInfo.socialMedia
-    }
-  }
-
-  return authorSocialMedia
 }
 
 // ###########################################################################
@@ -330,11 +283,14 @@ const languageDisplayName: LanguageDisplayName = (
 // ###########################################################################
 // ###########################################################################
 
-type Details = (state: ScriptCommandState) => string
+// FIXME: Replace the following piece of code for the "List.Item.Metadata"
+// in the future when it got released by the Raycast.
 
-const details: Details = state => {
+type Details = (state: ScriptCommandState, dataManager: DataManager) => string
+
+const details: Details = (state, dataManager) => {
   const newLine = "\n\n"
-  const separator = "\n***\n"
+  const divider = "\n***\n"
 
   const scriptCommand = state.scriptCommand
 
@@ -354,32 +310,56 @@ const details: Details = state => {
     content += newLine + scriptCommand.description
   }
 
-  content += separator
+  content += divider
 
   const authors = scriptCommand.authors
   if (authors && authors.length > 0) {
     const suffix = authors.length > 1 ? "s" : ""
-    content += label(`Author${suffix}`, authorDescription(scriptCommand))
+    content += `Author${suffix}`
+
+    authors.forEach(author => {
+      const info = infoDisplayForAuthor(author)
+
+      if (info.url) {
+        content += infoFor(`[${info.name}](${info.url ?? ""})`)
+      } else {
+        content += infoFor(info.name)
+      }
+    })
   }
 
-  content += newLine
   const formatMask = "LLL"
   const createdAt = moment(scriptCommand.createdAt).format(formatMask)
   const updatedAt = moment(scriptCommand.updatedAt).format(formatMask)
 
-  content += label("Created at", createdAt)
-  content += label("Updated at", updatedAt)
   content += newLine
+  content += "Date Information"
+  content += clearLabel("Created at", createdAt)
+  content += clearLabel("Updated at", updatedAt)
+  
+  const languageImageTag = `<img width="20" height="20" src="${languageURL(scriptCommand.language)}" />`
+  const languageName = languageDisplayName(dataManager, scriptCommand)
+  const language = languageImageTag + "  " + languageName
 
-  content += label("Status", descriptionForState(state.commandState))
   content += newLine
+  content += "Language  "
+  content += infoFor(language)
+
+  content += newLine
+  content += "Status"
+  content += clearLabel("", descriptionForState(state.commandState))
 
   return content
 }
 
-type LabelValue = (label: string, value: string) => string
+type ClearLabel = (label: string, value: string) => string
+const clearLabel: ClearLabel = (description, value) =>
+  label(description, value, "")
 
-const label: LabelValue = (label, value) => {
-  const newLine = "\n"
-  return newLine + label + " **" + value + "**  "
+type InfoFor = (value: string) => string
+const infoFor: InfoFor = (value) => label("", value, "")
+
+function label(label: string, value: string, separator = ":") {
+  const newLine = "\n - "
+  return newLine + label + `${separator} ` + value
 }
