@@ -83,7 +83,7 @@
           "value": "avatar-and-name"
         }
       ],
-      "description": "Select whether you want to show only names, avatars or avatar and name",
+      "description": "Select whether you want to show only names, avatars or avatar and name (this configuration has no effect in case the details sidebar is visible)",
       "default": "only-categories"
     }
   ],
