@@ -246,7 +246,6 @@ const authorsAccessories: AuthorsAccessories = (scriptCommand, widgetStyle) => {
       accessories.push({
         icon: info.icon,
         text: info.name,
-        tooltip: info.socialMedia,
       })
     }
   })
