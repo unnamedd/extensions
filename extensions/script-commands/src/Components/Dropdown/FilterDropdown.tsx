@@ -20,7 +20,7 @@ export function FilterDropdown({ onFilter }: Props): JSX.Element {
 
   const hasNeedSetup = dataManager.hasNeedSetupCommands()
   const hasInstalled = dataManager.hasInstalledCommands()
-  
+
   const languages = dataManager.fetchLanguages()
   const categories = dataManager.fecthCategories()
   const totalScriptCommands = dataManager.totalScriptCommands

@@ -8,7 +8,9 @@ type Props = {
   total: number
 }
 
-export function AllScriptCommandsDropdownSection({ total }: Props): JSX.Element {
+export function AllScriptCommandsDropdownSection({
+  total,
+}: Props): JSX.Element {
   let totalDescription = ""
 
   if (total > 0) {

@@ -1,6 +1,4 @@
-import { CompactGroup, Group } from "@models"
-
-import { Language } from "./Language"
+import { CompactGroup, Group, Language } from "@models"
 
 export type MainGroup = Main<Group>
 

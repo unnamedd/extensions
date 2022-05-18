@@ -13,7 +13,11 @@ export function AuthorActionItem({ author }: Props): JSX.Element {
 
   if (info.url) {
     return (
-      <Action.OpenInBrowser title={info.nameAndSocialMedia} icon={info.icon} url={info.url} />
+      <Action.OpenInBrowser
+        title={info.nameAndSocialMedia}
+        icon={info.icon}
+        url={info.url}
+      />
     )
   }
 

@@ -91,5 +91,5 @@ export interface FilterObject {
 export enum AuthorWidgetStyle {
   OnlyName,
   OnlyAvatar,
-  AvatarAndName
+  AvatarAndName,
 }
