@@ -34,8 +34,8 @@ export function SourceCodeDetails({ scriptCommand }: Props): JSX.Element {
         <Detail.Metadata>
           <Detail.Metadata.Label title="File" text={filename} />
           <Detail.Metadata.Separator />
-          <Detail.Metadata.Label title="Created at" text={createdAt} />
-          <Detail.Metadata.Label title="Updated at" text={updatedAt} />
+          <Detail.Metadata.Label title="Created" text={createdAt} />
+          <Detail.Metadata.Label title="Last Update" text={updatedAt} />
           <Detail.Metadata.Separator />
           <LanguageTagList language={language} />
           <StateTagList state={state} />

@@ -162,12 +162,10 @@ export class DataManager {
     if (typeof widgetValue === "string") {
       if (widgetValue === "only-name") {
         return AuthorWidgetStyle.OnlyName
-      }
-      else if (widgetValue === "only-avatar") {
+      } else if (widgetValue === "only-avatar") {
         return AuthorWidgetStyle.OnlyAvatar
-      }
-      else if (widgetValue === "avatar-and-name") {
-        return AuthorWidgetStyle.AvatarAndName    
+      } else if (widgetValue === "avatar-and-name") {
+        return AuthorWidgetStyle.AvatarAndName
       }
     }
 
