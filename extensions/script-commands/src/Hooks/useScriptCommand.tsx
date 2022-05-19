@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react"
 import { Image, List } from "@raycast/api"
-import moment from "moment"
 
 import { ScriptCommand, CompactGroup } from "@models"
 
@@ -41,7 +40,6 @@ interface UseScriptCommandProps {
 
 type UseScriptCommandState = {
   props: UseScriptCommandProps
-  details?: string
   accessories: List.Item.Accessory[]
   install: () => void
   uninstall: () => void
@@ -160,7 +158,6 @@ export const useScriptCommand: UseScriptCommand = (
       path: file?.path,
       isSidebarEnabled: isSidebarEnabled,
     },
-    details: isSidebarEnabled ? details(state) : undefined,
     accessories: accessoriesForState(state, dataManager),
     install,
     uninstall,

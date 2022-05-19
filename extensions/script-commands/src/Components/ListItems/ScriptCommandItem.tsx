@@ -28,7 +28,6 @@ export function ScriptCommandItem({
 }: Props): JSX.Element {
   const {
     props,
-    details,
     accessories,
     install,
     uninstall,
@@ -71,9 +70,9 @@ export function ScriptCommandItem({
       subtitle={props.subtitle}
       accessories={accessories}
       detail={
-        details && (
+        props.isSidebarEnabled ? (
           <ScriptCommandMetadata scriptCommand={scriptCommand} group={group} />
-        )
+        ) : undefined
       }
       actions={
         <ActionPanel title={props.title}>

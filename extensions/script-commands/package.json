@@ -60,9 +60,9 @@
       "name": "showSidebarDetails",
       "type": "checkbox",
       "required": false,
-      "label": "Show Script Commands details on sidebar",
+      "label": "Show Script Commands metatags in sidebar",
       "default": true,
-      "description": "Show extra information about the Script Command selected in a sidebar panel"
+      "description": "Show extra information about the Script Command selected in the sidebar panel"
     },
     {
       "name": "authorsListItemWidget",
