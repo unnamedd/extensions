@@ -19,10 +19,12 @@ export function ScriptCommandMetadata({
 
   const elements: JSX.Element[] = []
 
+  // Script Command Path
   elements.push(
     <List.Item.Detail.Metadata.Label key={nanoid()} title={props.path} />
   )
 
+  // Script Command Description
   if (props.description) {
     elements.push(
       <List.Item.Detail.Metadata.Label
@@ -33,6 +35,7 @@ export function ScriptCommandMetadata({
     )
   }
 
+  // Authors
   const authors = scriptCommand.authors
   if (authors && authors.length > 0) {
     const hasAuthors = authors.length > 1
@@ -58,6 +61,7 @@ export function ScriptCommandMetadata({
     })
   }
 
+  // Date Information
   elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
   elements.push(
     <List.Item.Detail.Metadata.Label key={nanoid()} title="Date Information" />
@@ -77,6 +81,7 @@ export function ScriptCommandMetadata({
     />
   )
 
+  // Relevant Information
   elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
   elements.push(
     <List.Item.Detail.Metadata.Label
@@ -93,6 +98,24 @@ export function ScriptCommandMetadata({
       title="Status"
       text={props.status.text}
       icon={props.status.icon}
+    />
+  )
+
+  // Extra Information
+  elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
+  elements.push(
+    <List.Item.Detail.Metadata.Label
+      key={nanoid()}
+      title="Need extra setup?"
+      text={props.extraInfo.needSetup ? "Yes" : "No"}
+    />
+  )
+
+  elements.push(
+    <List.Item.Detail.Metadata.Label
+      key={nanoid()}
+      title="Has Arguments?"
+      text={props.extraInfo.hasArguments ? "Yes" : "No"}
     />
   )
 

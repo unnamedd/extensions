@@ -16,6 +16,10 @@ type UseScriptCommandMetadataProps = {
   dateInfo: DateInfoLike
   language: IconLike
   status: IconLike
+  extraInfo: {
+    needSetup: boolean
+    hasArguments: boolean
+  }
 }
 
 type UseScriptCommandMetadataState = {
@@ -34,13 +38,23 @@ export const useScriptCommandMetadata: useScriptCommandMetadata = (
   const { dataManager } = useDataManager()
 
   let path = ""
+  let packageName = ""
+
   if (group.subtitle) {
-    path += `${group.subtitle} > `
+    packageName = group.subtitle
+  } else if (group.title) {
+    packageName = group.title
   }
 
-  if (scriptCommand.packageName) {
-    path += scriptCommand.packageName
+  if (packageName.length > 0) {
+    path += packageName
   }
+
+  path += ` > ${
+    scriptCommand.packageName && scriptCommand.packageName != packageName
+      ? scriptCommand.packageName
+      : scriptCommand.title
+  }`
 
   let description = scriptCommand.description
   if (description && description.length > 60) {
@@ -68,6 +82,10 @@ export const useScriptCommandMetadata: useScriptCommandMetadata = (
       status: {
         icon: iconForState(commandState),
         text: descriptionForState(commandState),
+      },
+      extraInfo: {
+        hasArguments: scriptCommand.hasArguments,
+        needSetup: scriptCommand.isTemplate,
       },
     },
   }
