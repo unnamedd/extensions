@@ -2,6 +2,8 @@ export { descriptionForState } from "./Descriptions/DescriptionForState"
 
 export { infoDisplayForAuthor } from "./Descriptions/InfoDisplayForAuthor"
 
+export { languageDisplayName } from "./Descriptions/LanguageDisplayName"
+
 export { colorForState } from "./Colors/ColorForState"
 
 export { avatarImage } from "./Images/AvatarImage"

@@ -256,28 +256,6 @@ const authorsAccessories: AuthorsAccessories = (scriptCommand, widgetStyle) => {
 // ###########################################################################
 // ###########################################################################
 
-type LanguageDisplayName = (
-  dataManager: DataManager,
-  scriptCommand: ScriptCommand
-) => string
-
-const languageDisplayName: LanguageDisplayName = (
-  dataManager,
-  scriptCommand
-) => {
-  const language = dataManager.fetchLanguage(scriptCommand.language)
-  let languageDisplayName = scriptCommand.language
-
-  // Hack to make the first letter uppercased
-  languageDisplayName =
-    languageDisplayName.charAt(0).toUpperCase() + languageDisplayName.slice(1)
-
-  if (language) {
-    languageDisplayName = language.displayName
-  }
-
-  return languageDisplayName
-}
 
 // ###########################################################################
 // ###########################################################################
