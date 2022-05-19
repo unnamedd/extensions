@@ -30,5 +30,6 @@ export { CategoriesDropdownSection } from "./Dropdown/Sections/CategoriesDropdow
 export { MainContent } from "./Contents/MainContent"
 
 export { ScriptCommandItem } from "./ListItems/ScriptCommandItem"
+export { ScriptCommandMetadata } from "./ListItems/ScriptCommandMetadata"
 
 export { GroupSection } from "./Sections/GroupSection"

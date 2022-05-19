@@ -10,13 +10,15 @@ export {
 export type {
   Command,
   Content,
+  DateInfoLike,
   File,
   FileNullable,
   Files,
   Filter,
   FilterObject,
-  Process,
+  IconLike,
   IconPathNullable,
   IconResultNullable,
+  Process,
   StateResult,
 } from "./Types"

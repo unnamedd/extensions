@@ -1,3 +1,5 @@
+import { Image } from "@raycast/api"
+
 import { ScriptCommand } from "@models"
 
 import { IconResult } from "@urls"
@@ -64,6 +66,16 @@ export type Process = {
   state: State
   current: number
   total: number
+}
+
+export type IconLike = {
+  icon: Image.ImageLike
+  text: string
+}
+
+export type DateInfoLike = {
+  createdAt: string
+  updatedAt: string
 }
 
 export type Filter = string | null

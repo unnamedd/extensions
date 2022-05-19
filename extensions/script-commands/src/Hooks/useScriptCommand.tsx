@@ -16,6 +16,7 @@ import {
   iconForState,
   infoDisplayForAuthor,
   keywordsForScriptCommand,
+  languageDisplayName,
 } from "@helpers"
 
 import { DataManager } from "@managers"
@@ -159,7 +160,7 @@ export const useScriptCommand: UseScriptCommand = (
       path: file?.path,
       isSidebarEnabled: isSidebarEnabled,
     },
-    details: isSidebarEnabled ? details(state, dataManager) : undefined,
+    details: isSidebarEnabled ? details(state) : undefined,
     accessories: accessoriesForState(state, dataManager),
     install,
     uninstall,
@@ -210,7 +211,7 @@ const accessoriesForState: AccessoriesForState = (state, dataManager) => {
 
     accessories.push({
       icon: { source: languageURL(state.scriptCommand.language) },
-      tooltip: languageDisplayName(dataManager, state.scriptCommand),
+      tooltip: languageDisplayName(state.scriptCommand),
     })
   }
 
@@ -251,92 +252,4 @@ const authorsAccessories: AuthorsAccessories = (scriptCommand, widgetStyle) => {
   })
 
   return accessories
-}
-
-// ###########################################################################
-// ###########################################################################
-
-
-// ###########################################################################
-// ###########################################################################
-
-// FIXME: Replace the following piece of code for the "List.Item.Metadata"
-// in the future when it got released by the Raycast.
-
-type Details = (state: ScriptCommandState, dataManager: DataManager) => string
-
-const details: Details = (state, dataManager) => {
-  const newLine = "\n\n"
-  const divider = "\n***\n"
-
-  const scriptCommand = state.scriptCommand
-
-  let content = ""
-
-  if (state.group.subtitle) {
-    content += `${state.group.subtitle} > `
-  }
-
-  if (scriptCommand.packageName) {
-    content += `**${scriptCommand.packageName}**\n\n`
-  }
-
-  content += newLine + `## ${scriptCommand.title}`
-
-  if (scriptCommand.description) {
-    content += newLine + scriptCommand.description
-  }
-
-  content += divider
-
-  const authors = scriptCommand.authors
-  if (authors && authors.length > 0) {
-    const suffix = authors.length > 1 ? "s" : ""
-    content += `Author${suffix}`
-
-    authors.forEach(author => {
-      const info = infoDisplayForAuthor(author)
-
-      if (info.url) {
-        content += infoFor(`[${info.name}](${info.url ?? ""})`)
-      } else {
-        content += infoFor(info.name)
-      }
-    })
-  }
-
-  const formatMask = "LLL"
-  const createdAt = moment(scriptCommand.createdAt).format(formatMask)
-  const updatedAt = moment(scriptCommand.updatedAt).format(formatMask)
-
-  content += newLine
-  content += "Date Information"
-  content += clearLabel("Created at", createdAt)
-  content += clearLabel("Updated at", updatedAt)
-  
-  const languageImageTag = `<img width="20" height="20" src="${languageURL(scriptCommand.language)}" />`
-  const languageName = languageDisplayName(dataManager, scriptCommand)
-  const language = languageImageTag + "  " + languageName
-
-  content += newLine
-  content += "Language  "
-  content += infoFor(language)
-
-  content += newLine
-  content += "Status"
-  content += clearLabel("", descriptionForState(state.commandState))
-
-  return content
-}
-
-type ClearLabel = (label: string, value: string) => string
-const clearLabel: ClearLabel = (description, value) =>
-  label(description, value, "")
-
-type InfoFor = (value: string) => string
-const infoFor: InfoFor = (value) => label("", value, "")
-
-function label(label: string, value: string, separator = ":") {
-  const newLine = "\n - "
-  return newLine + label + `${separator} ` + value
 }

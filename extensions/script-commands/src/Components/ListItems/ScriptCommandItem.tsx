@@ -4,6 +4,7 @@ import {
   AuthorsActionPanel,
   ManagementActionPanel,
   ReadmeActionPanel,
+  ScriptCommandMetadata,
   StoreToast,
   ViewsActionPanel,
 } from "@components"
@@ -69,7 +70,11 @@ export function ScriptCommandItem({
       title={props.title}
       subtitle={props.subtitle}
       accessories={accessories}
-      detail={details && <List.Item.Detail markdown={details} />}
+      detail={
+        details && (
+          <ScriptCommandMetadata scriptCommand={scriptCommand} group={group} />
+        )
+      }
       actions={
         <ActionPanel title={props.title}>
           <ManagementActionPanel
