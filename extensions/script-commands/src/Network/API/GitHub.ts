@@ -158,8 +158,9 @@ const markdownNormalized: MarkdownNormalized = (markdown, readmePath) => {
     if (
       path.length > 0 &&
       (!path.startsWith("http") || !path.startsWith("https"))
-    )
+    ) {
       return `![](${URLConstants.baseRawURL}/${groupPath}/${path})`
+    }
 
     return path
   })

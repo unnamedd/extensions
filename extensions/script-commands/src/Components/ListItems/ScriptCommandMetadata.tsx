@@ -19,41 +19,38 @@ export function ScriptCommandMetadata({
 
   const elements: JSX.Element[] = []
 
-  // Script Command Path
-  elements.push(
-    <List.Item.Detail.Metadata.Label key={nanoid()} title={props.path} />
-  )
+  elements.push(<Title key={nanoid()} text={props.path} />)
 
-  // Script Command Description
+  // Description
   if (props.description) {
-    elements.push(
-      <List.Item.Detail.Metadata.Label
-        key={nanoid()}
-        title=""
-        text={props.description}
-      />
-    )
+    elements.push(<Separator key={nanoid()} />)
+    props.description.forEach(line => {
+      elements.push(
+        <List.Item.Detail.Metadata.Label key={nanoid()} title={line} />
+      )
+    })
   }
 
   // Authors
   const authors = scriptCommand.authors
   if (authors && authors.length > 0) {
     const hasAuthors = authors.length > 1
-    elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
+    elements.push(<Separator key={nanoid()} />)
 
-    if (hasAuthors) {
-      elements.push(
-        <List.Item.Detail.Metadata.Label key={nanoid()} title="Authors" />
-      )
-    }
-
-    authors.forEach(author => {
+    authors.forEach((author, index) => {
       const info = infoDisplayForAuthor(author)
+
+      let title = ""
+      if (hasAuthors && index == 0) {
+        title = "Authors"
+      } else if (!hasAuthors) {
+        title = "Author"
+      }
 
       elements.push(
         <List.Item.Detail.Metadata.Label
           key={nanoid()}
-          title={hasAuthors ? "" : "Author"}
+          title={title}
           text={info.name}
           icon={info.icon}
         />
@@ -62,10 +59,7 @@ export function ScriptCommandMetadata({
   }
 
   // Date Information
-  elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
-  elements.push(
-    <List.Item.Detail.Metadata.Label key={nanoid()} title="Date Information" />
-  )
+  elements.push(<Separator key={nanoid()} />)
   elements.push(
     <List.Item.Detail.Metadata.Label
       key={nanoid()}
@@ -82,7 +76,7 @@ export function ScriptCommandMetadata({
   )
 
   // Relevant Information
-  elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
+  elements.push(<Separator key={nanoid()} />)
   elements.push(
     <List.Item.Detail.Metadata.Label
       key={nanoid()}
@@ -102,20 +96,20 @@ export function ScriptCommandMetadata({
   )
 
   // Extra Information
-  elements.push(<List.Item.Detail.Metadata.Separator key={nanoid()} />)
+  elements.push(<Separator key={nanoid()} />)
   elements.push(
-    <List.Item.Detail.Metadata.Label
+    <BooleanLabel
       key={nanoid()}
       title="Need extra setup?"
-      text={props.extraInfo.needSetup ? "Yes" : "No"}
+      value={props.extraInfo.needSetup}
     />
   )
 
   elements.push(
-    <List.Item.Detail.Metadata.Label
+    <BooleanLabel
       key={nanoid()}
       title="Has Arguments?"
-      text={props.extraInfo.hasArguments ? "Yes" : "No"}
+      value={props.extraInfo.hasArguments}
     />
   )
 
@@ -124,4 +118,27 @@ export function ScriptCommandMetadata({
       metadata={<List.Item.Detail.Metadata children={elements} />}
     />
   )
+}
+
+function Title({ text }: { text: string }): JSX.Element {
+  return <List.Item.Detail.Metadata.Label title={text} />
+}
+
+function BooleanLabel({
+  title,
+  value,
+}: {
+  title: string
+  value: boolean
+}): JSX.Element {
+  return (
+    <List.Item.Detail.Metadata.Label
+      title={title}
+      text={value ? "Yes" : "No"}
+    />
+  )
+}
+
+function Separator(): JSX.Element {
+  return <List.Item.Detail.Metadata.Separator />
 }
