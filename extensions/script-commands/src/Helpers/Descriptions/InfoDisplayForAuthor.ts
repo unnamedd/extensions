@@ -6,7 +6,7 @@ import { avatarImage } from "@helpers"
 import { Author } from "@models"
 import { checkIsValidURL } from "@urls"
 
-export type InfoDisplayForAuthor = (author: Author) => {
+type InfoDisplayForAuthor = (author: Author) => {
   /** Auto generated unique identifier */
   identifier: string
   name: string
