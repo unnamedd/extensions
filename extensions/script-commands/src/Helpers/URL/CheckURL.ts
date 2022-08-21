@@ -1,3 +1,5 @@
+import { URL } from "url"
+
 export const checkIsValidURL = (url: string): boolean => {
   try {
     new URL(url)

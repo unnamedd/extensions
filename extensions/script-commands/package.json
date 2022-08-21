@@ -88,15 +88,13 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.35.0",
+    "@raycast/api": "^1.39.1",
     "moment": "^2.29.1",
     "nanoid": "^3.3.1",
     "node-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@types/download": "^8.0.1",
-    "@types/node": "~16.10.0",
-    "@types/react": "^17.0.28",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "download": "^8.0.0",
