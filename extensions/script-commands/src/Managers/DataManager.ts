@@ -128,7 +128,7 @@ export class DataManager {
     return command != null
   }
 
-  private isCommandChanged(identifier: string): boolean {
+  private hasCommandChanged(identifier: string): boolean {
     const command = this.contentManager.contentFor(identifier)
 
     if (!command) {
@@ -181,7 +181,7 @@ export class DataManager {
 
     if (file && state === State.NeedSetup) {
       return watch(file.path, event => {
-        if (!this.isCommandChanged(identifier)) {
+        if (!this.hasCommandChanged(identifier)) {
           callback(State.NeedSetup)
           return
         }
@@ -204,7 +204,7 @@ export class DataManager {
 
     if (file && state == State.Installed) {
       return watch(file.path, event => {
-        if (event === "change" && this.isCommandChanged(identifier)) {
+        if (event === "change" && this.hasCommandChanged(identifier)) {
           this.scriptCommandManager.updateHashFor(identifier)
           this.persist()
 
@@ -229,7 +229,7 @@ export class DataManager {
   stateFor(identifier: string): State {
     const downloaded = this.isCommandDownloaded(identifier)
     const needSetup = this.commandNeedsSetup(identifier)
-    const changedContent = this.isCommandChanged(identifier)
+    const changedContent = this.hasCommandChanged(identifier)
 
     let state: State = State.NotInstalled
 
@@ -265,7 +265,7 @@ export class DataManager {
     return object
   }
 
-  private keyPairValuesFrom(content: string): { key: string; value: string } {
+  private keyPairValuesFrom(content: string): { key: string, value: string } {
     if (!content.includes("|")) {
       content = valueForBasicFilterKind
     }
