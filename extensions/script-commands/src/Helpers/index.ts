@@ -4,6 +4,8 @@ export { infoDisplayForAuthor } from "./Descriptions/InfoDisplayForAuthor"
 
 export { languageDisplayName } from "./Descriptions/LanguageDisplayName"
 
+export { languageFromString } from "./Conversions/LanguageFromString"
+
 export { colorForState } from "./Colors/ColorForState"
 
 export { avatarImage } from "./Images/AvatarImage"

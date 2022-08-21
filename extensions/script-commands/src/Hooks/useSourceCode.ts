@@ -3,11 +3,8 @@ import moment from "moment"
 import { useEffect, useRef, useState } from "react"
 
 import { useDataManager } from "@hooks"
-
 import { Language, ScriptCommand } from "@models"
-
 import { sourceCodeNormalURL } from "@urls"
-
 import { State } from "@types"
 
 type SourceCodeState = {
@@ -20,7 +17,7 @@ type UseSourceCodeProps = {
   filename: string
   createdAt: string
   updatedAt: string
-  language: Language
+  language: string
   state: State
   isLoading: boolean
   sourceCodeURL: string
@@ -37,16 +34,6 @@ export const useSourceCode: UseSourceCode = initialScriptCommand => {
     content: "",
     scriptCommand: initialScriptCommand,
   })
-
-  let language = dataManager.fetchLanguage(state.scriptCommand.language)
-
-  if (!language) {
-    const languageName = state.scriptCommand.language
-    language = {
-      name: languageName,
-      displayName: languageName,
-    }
-  }
 
   useEffect(() => {
     const fetch = async () => {
@@ -83,7 +70,7 @@ export const useSourceCode: UseSourceCode = initialScriptCommand => {
     createdAt: createdAt,
     updatedAt: updatedAt,
     state: dataManager.stateFor(state.scriptCommand.identifier),
-    language: language,
+    language: state.scriptCommand.language,
     isLoading: state.content.length === 0,
     sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
     sourceCode: details(state.scriptCommand.language, state.content),

@@ -226,8 +226,8 @@ export class ScriptCommandManager {
   private async downloadIcons(
     scriptCommand: ScriptCommand,
     commandPath: string
-  ): Promise<{ dark: FileNullable; light: FileNullable }> {
-    const icons: { dark: FileNullable; light: FileNullable } = {
+  ): Promise<{ dark: FileNullable, light: FileNullable }> {
+    const icons: { dark: FileNullable, light: FileNullable } = {
       dark: null,
       light: null,
     }

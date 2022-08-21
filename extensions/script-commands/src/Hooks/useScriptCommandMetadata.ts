@@ -1,22 +1,15 @@
 import moment from "moment"
 
-import {
-  languageDisplayName,
-  iconForState,
-  descriptionForState,
-} from "@helpers"
-
 import { useDataManager } from "@hooks"
 import { ScriptCommand, CompactGroup } from "@models"
-import { languageURL } from "@urls"
-import { DateInfoLike, IconLike } from "@types"
+import { DateInfoLike, State } from "@types"
 
 type UseScriptCommandMetadataProps = {
   path: string
   description: string[] | undefined
   dateInfo: DateInfoLike
-  language: IconLike
-  status: IconLike
+  language: string
+  state: State
   extraInfo: {
     needSetup: boolean
     hasArguments: boolean
@@ -49,7 +42,7 @@ export const useScriptCommandMetadata: useScriptCommandMetadata = (
   const createdAt = moment(scriptCommand.createdAt).format(formatMask)
   const updatedAt = moment(scriptCommand.updatedAt).format(formatMask)
 
-  const commandState = dataManager.stateFor(scriptCommand.identifier)
+  const state = dataManager.stateFor(scriptCommand.identifier)
 
   let description: string[] | undefined
   if (scriptCommand.description) {
@@ -67,14 +60,8 @@ export const useScriptCommandMetadata: useScriptCommandMetadata = (
         createdAt: createdAt,
         updatedAt: updatedAt,
       },
-      language: {
-        icon: languageURL(scriptCommand.language),
-        text: languageDisplayName(scriptCommand),
-      },
-      status: {
-        icon: iconForState(commandState),
-        text: descriptionForState(commandState),
-      },
+      language: scriptCommand.language,
+      state: state,
       extraInfo: {
         hasArguments: scriptCommand.hasArguments,
         needSetup: scriptCommand.isTemplate,

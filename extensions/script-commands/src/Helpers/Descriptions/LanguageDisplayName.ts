@@ -1,20 +1,19 @@
 import { useDataManager } from "@hooks"
-import { ScriptCommand } from "@models"
 
-type LanguageDisplayName = (scriptCommand: ScriptCommand) => string
+type LanguageDisplayName = (name: string) => string
 
-export const languageDisplayName: LanguageDisplayName = scriptCommand => {
+export const languageDisplayName: LanguageDisplayName = name => {
   const { dataManager } = useDataManager()
-  const language = dataManager.fetchLanguage(scriptCommand.language)
-  let languageDisplayName = scriptCommand.language
+  const language = dataManager.fetchLanguage(name)
+  let displayName = name
 
   // Hack to make the first letter uppercased
-  languageDisplayName =
-    languageDisplayName.charAt(0).toUpperCase() + languageDisplayName.slice(1)
+  displayName =
+    displayName.charAt(0).toUpperCase() + displayName.slice(1)
 
   if (language) {
-    languageDisplayName = language.displayName
+    displayName = language.displayName
   }
 
-  return languageDisplayName
+  return displayName
 }

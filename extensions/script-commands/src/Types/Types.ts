@@ -21,6 +21,11 @@ export enum ContentType {
   Normal,
 }
 
+export enum TagElementType {
+  List,
+  Detail,
+}
+
 export interface File {
   path: string
   link: string

@@ -206,9 +206,11 @@ const accessoriesForState: AccessoriesForState = (state, dataManager) => {
       authorsWidget.forEach(accessory => accessories.push(accessory))
     }
 
+    const language = state.scriptCommand.language
+
     accessories.push({
-      icon: { source: languageURL(state.scriptCommand.language) },
-      tooltip: languageDisplayName(state.scriptCommand),
+      icon: { source: languageURL(language) },
+      tooltip: languageDisplayName(language),
     })
   }
 

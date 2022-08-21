@@ -1,6 +1,7 @@
 export {
   AuthorWidgetStyle,
   ContentType,
+  TagElementType,
   FilterKind,
   IconUsage,
   Progress,

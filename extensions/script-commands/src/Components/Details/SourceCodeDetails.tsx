@@ -1,12 +1,8 @@
 import { Action, ActionPanel, Detail } from "@raycast/api"
 
-import { Language, ScriptCommand } from "@models"
-
+import { DetailLanguageTagList, DetailStateTagList } from "@components"
 import { useSourceCode } from "@hooks"
-import { languageColor } from "@constants"
-import { languageURL } from "@urls"
-import { State } from "@types"
-import { colorForState, descriptionForState, iconForState } from "@helpers"
+import { ScriptCommand } from "@models"
 
 type Props = {
   scriptCommand: ScriptCommand
@@ -37,8 +33,8 @@ export function SourceCodeDetails({ scriptCommand }: Props): JSX.Element {
           <Detail.Metadata.Label title="Created" text={createdAt} />
           <Detail.Metadata.Label title="Last Update" text={updatedAt} />
           <Detail.Metadata.Separator />
-          <LanguageTagList language={language} />
-          <StateTagList state={state} />
+          <DetailLanguageTagList language={language} />
+          <DetailStateTagList state={state} />
         </Detail.Metadata>
       }
       actions={
@@ -56,39 +52,5 @@ function ActionsSection({ url }: { url: string }): JSX.Element {
       <Action.OpenInBrowser url={url} />
       <Action.CopyToClipboard title="Copy Script Command URL" content={url} />
     </ActionPanel.Section>
-  )
-}
-
-function LanguageTagList({ language }: { language: Language }): JSX.Element {
-  const name = language.name
-  const displayName = language.displayName
-
-  const icon = languageURL(name)
-  const color = languageColor(name)
-
-  return (
-    <Detail.Metadata.TagList title="Language">
-      <Detail.Metadata.TagList.Item
-        text={displayName}
-        icon={icon}
-        color={color}
-      />
-    </Detail.Metadata.TagList>
-  )
-}
-
-function StateTagList({ state }: { state: State }): JSX.Element {
-  const color = colorForState(state)
-  const description = descriptionForState(state)
-  const icon = iconForState(state)
-
-  return (
-    <Detail.Metadata.TagList title="Status">
-      <Detail.Metadata.TagList.Item
-        text={description}
-        icon={icon}
-        color={color}
-      />
-    </Detail.Metadata.TagList>
   )
 }

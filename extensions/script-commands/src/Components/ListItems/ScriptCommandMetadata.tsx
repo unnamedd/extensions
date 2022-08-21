@@ -5,6 +5,8 @@ import { nanoid } from "nanoid"
 import { CompactGroup, ScriptCommand } from "@models"
 import { useScriptCommandMetadata } from "@hooks"
 import { infoDisplayForAuthor } from "@helpers"
+import { ListItemStateTagList } from "Components/TagLists/StateTagList"
+import { ListItemLanguageTagList } from "Components/TagLists/LanguageTagList"
 
 type Props = {
   scriptCommand: ScriptCommand
@@ -78,22 +80,10 @@ export function ScriptCommandMetadata({
   // Relevant Information
   elements.push(<Separator key={nanoid()} />)
   elements.push(
-    <List.Item.Detail.Metadata.Label
-      key={nanoid()}
-      title="Language"
-      text={props.language.text}
-      icon={props.language.icon}
-    />
+    <ListItemLanguageTagList key={nanoid()} language={props.language} />
   )
 
-  elements.push(
-    <List.Item.Detail.Metadata.Label
-      key={nanoid()}
-      title="Status"
-      text={props.status.text}
-      icon={props.status.icon}
-    />
-  )
+  elements.push(<ListItemStateTagList key={nanoid()} state={props.state} />)
 
   // Extra Information
   elements.push(<Separator key={nanoid()} />)
