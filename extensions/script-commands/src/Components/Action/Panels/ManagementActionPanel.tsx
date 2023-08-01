@@ -47,7 +47,7 @@ export function ManagementActionPanel({
               key="edit-source-code"
               path={commandPath}
               onSetup={onEditLocal}
-            />
+            />,
           )
         }
 
@@ -62,14 +62,14 @@ export function ManagementActionPanel({
         <InstallPackageActionItem
           key="install-package"
           onInstallPackage={onInstallPackage}
-        />
+        />,
       )
       break
 
     case State.NeedSetup:
       if (commandPath) {
         elements.push(
-          <SetupActionItem key="setup" path={commandPath} onSetup={onSetup} />
+          <SetupActionItem key="setup" path={commandPath} onSetup={onSetup} />,
         )
       }
 
@@ -82,7 +82,7 @@ export function ManagementActionPanel({
         <ConfirmChangeActionItem
           key="confirm-setup"
           onConfirmSetup={onConfirmSetup}
-        />
+        />,
       )
       elements.push(uninstallAction)
 

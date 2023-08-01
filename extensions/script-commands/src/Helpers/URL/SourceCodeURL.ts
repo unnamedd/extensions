@@ -12,7 +12,7 @@ export const sourceCodeNormalURL = (scriptCommand: ScriptCommand) =>
 
 const sourceCodeURL = (
   scriptCommand: ScriptCommand,
-  type: ContentType
+  type: ContentType,
 ): string => {
   const base =
     type === ContentType.Raw ? URLConstants.baseRawURL : URLConstants.baseURL

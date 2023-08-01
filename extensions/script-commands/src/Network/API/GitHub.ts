@@ -33,7 +33,7 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
     }
 
     object.groups.sort((left: Group, right: Group) =>
-      left.name > right.name ? 1 : -1
+      left.name > right.name ? 1 : -1,
     )
 
     object.groups.forEach(group => {
@@ -48,7 +48,7 @@ export async function fetchScriptCommands(): Promise<MainCompactGroup> {
 
       if (group.subGroups && group.subGroups.length > 0) {
         group.subGroups.sort((left: Group, right: Group) =>
-          left.name > right.name ? 1 : -1
+          left.name > right.name ? 1 : -1,
         )
 
         group.subGroups.forEach(subGroup => {
@@ -74,7 +74,7 @@ type FlattenGroups = (group: Group, parentGroupName?: string) => CompactGroup
 const flattenGroups: FlattenGroups = (group, parentGroupName = undefined) => {
   if (group.scriptCommands.length > 0) {
     group.scriptCommands.sort((left: ScriptCommand, right: ScriptCommand) =>
-      left.title > right.title ? 1 : -1
+      left.title > right.title ? 1 : -1,
     )
   }
 
@@ -107,7 +107,7 @@ const flattenGroups: FlattenGroups = (group, parentGroupName = undefined) => {
 
 export async function fetchSourceCode(
   scriptCommand: ScriptCommand,
-  signal: AbortSignal
+  signal: AbortSignal,
 ): Promise<string> {
   try {
     const url = sourceCodeRawURL(scriptCommand)
@@ -118,7 +118,7 @@ export async function fetchSourceCode(
     if (!signal.aborted) {
       showToast(
         Toast.Style.Failure,
-        `Could not load the source code for ${scriptCommand.title}`
+        `Could not load the source code for ${scriptCommand.title}`,
       )
     }
     return Promise.resolve("")
@@ -127,7 +127,7 @@ export async function fetchSourceCode(
 
 export async function fetchReadme(
   path: string,
-  signal: AbortSignal
+  signal: AbortSignal,
 ): Promise<string> {
   try {
     const url = readmeRawURL(path)
@@ -140,7 +140,7 @@ export async function fetchReadme(
     if (!signal.aborted) {
       showToast(
         Toast.Style.Failure,
-        `Could not load the README for path ${path}`
+        `Could not load the README for path ${path}`,
       )
     }
 

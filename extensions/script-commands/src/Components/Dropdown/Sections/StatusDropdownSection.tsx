@@ -17,13 +17,13 @@ export function StatusDropdownSection({
   const statusInstalledTitle = descriptionForState(State.Installed)
   const statusInstalledValue = valueForFilterKind(
     FilterKind.Status,
-    StateConstants.Installed
+    StateConstants.Installed,
   )
 
   const statusNeedSetupTitle = descriptionForState(State.NeedSetup)
   const statusNeedSetupValue = valueForFilterKind(
     FilterKind.Status,
-    StateConstants.NeedSetup
+    StateConstants.NeedSetup,
   )
 
   return (

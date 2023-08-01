@@ -49,12 +49,12 @@ type UseScriptCommandState = {
 
 type UseScriptCommand = (
   initialScriptCommand: ScriptCommand,
-  initialGroup: CompactGroup
+  initialGroup: CompactGroup,
 ) => UseScriptCommandState
 
 export const useScriptCommand: UseScriptCommand = (
   initialScriptCommand,
-  initialGroup
+  initialGroup,
 ) => {
   const abort = useRef<AbortController | null>(null)
   const { dataManager, commandIdentifier, setReloadDropdown } = useDataManager()
@@ -125,7 +125,7 @@ export const useScriptCommand: UseScriptCommand = (
 
   const confirmSetup = async () => {
     const result = await dataManager.confirmScriptCommandSetupFor(
-      state.scriptCommand
+      state.scriptCommand,
     )
 
     setState(oldState => ({
@@ -139,7 +139,7 @@ export const useScriptCommand: UseScriptCommand = (
       state.scriptCommand.identifier,
       () => {
         monitor?.close()
-      }
+      },
     )
   }
 
@@ -150,7 +150,7 @@ export const useScriptCommand: UseScriptCommand = (
       subtitle: isSidebarEnabled ? undefined : state.scriptCommand.packageName,
       keywords: keywordsForScriptCommand(
         state.scriptCommand,
-        state.commandState
+        state.commandState,
       ),
       icon: iconForScriptCommand(state.scriptCommand),
       sourceCodeURL: sourceCodeNormalURL(state.scriptCommand),
@@ -171,7 +171,7 @@ export const useScriptCommand: UseScriptCommand = (
 
 type AccessoriesForState = (
   state: ScriptCommandState,
-  dataManager: DataManager
+  dataManager: DataManager,
 ) => List.Item.Accessory[]
 
 const accessoriesForState: AccessoriesForState = (state, dataManager) => {
@@ -219,7 +219,7 @@ const accessoriesForState: AccessoriesForState = (state, dataManager) => {
 
 type AuthorsAccessories = (
   scriptCommand: ScriptCommand,
-  widgetStyle: AuthorWidgetStyle
+  widgetStyle: AuthorWidgetStyle,
 ) => List.Item.Accessory[] | undefined
 
 const authorsAccessories: AuthorsAccessories = (scriptCommand, widgetStyle) => {

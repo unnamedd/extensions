@@ -19,7 +19,7 @@ export class Settings {
     this.databaseFile = path.join(this.supportPath, "ScriptCommandsStore.json")
     this.repositoryCommandsFolderPath = path.join(
       this.commandsFolderPath,
-      "commands"
+      "commands",
     )
     this.imagesCommandsFolderPath = path.join(this.commandsFolderPath, "images")
   }

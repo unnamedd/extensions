@@ -28,7 +28,7 @@ export function ScriptCommandMetadata({
     elements.push(<Separator key={nanoid()} />)
     props.description.forEach(line => {
       elements.push(
-        <List.Item.Detail.Metadata.Label key={nanoid()} title={line} />
+        <List.Item.Detail.Metadata.Label key={nanoid()} title={line} />,
       )
     })
   }
@@ -55,7 +55,7 @@ export function ScriptCommandMetadata({
           title={title}
           text={info.name}
           icon={info.icon}
-        />
+        />,
       )
     })
   }
@@ -67,20 +67,20 @@ export function ScriptCommandMetadata({
       key={nanoid()}
       title="Created"
       text={props.dateInfo.createdAt}
-    />
+    />,
   )
   elements.push(
     <List.Item.Detail.Metadata.Label
       key={nanoid()}
       title="Last Update"
       text={props.dateInfo.updatedAt}
-    />
+    />,
   )
 
   // Relevant Information
   elements.push(<Separator key={nanoid()} />)
   elements.push(
-    <ListItemLanguageTagList key={nanoid()} language={props.language} />
+    <ListItemLanguageTagList key={nanoid()} language={props.language} />,
   )
 
   elements.push(<ListItemStateTagList key={nanoid()} state={props.state} />)
@@ -92,7 +92,7 @@ export function ScriptCommandMetadata({
       key={nanoid()}
       title="Need extra setup?"
       value={props.extraInfo.needSetup}
-    />
+    />,
   )
 
   elements.push(
@@ -100,7 +100,7 @@ export function ScriptCommandMetadata({
       key={nanoid()}
       title="Has Arguments?"
       value={props.extraInfo.hasArguments}
-    />
+    />,
   )
 
   return (

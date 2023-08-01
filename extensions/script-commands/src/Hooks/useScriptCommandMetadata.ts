@@ -22,12 +22,12 @@ type UseScriptCommandMetadataState = {
 
 type useScriptCommandMetadata = (
   scriptCommand: ScriptCommand,
-  group: CompactGroup
+  group: CompactGroup,
 ) => UseScriptCommandMetadataState
 
 export const useScriptCommandMetadata: useScriptCommandMetadata = (
   scriptCommand,
-  group
+  group,
 ) => {
   const { dataManager } = useDataManager()
 

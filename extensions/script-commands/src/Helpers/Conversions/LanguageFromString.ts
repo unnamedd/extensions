@@ -11,6 +11,6 @@ export const languageFromString: LanguageFromString = name => {
   return {
     displayName: displayName,
     name: name,
-    icon: icon
+    icon: icon,
   }
 }

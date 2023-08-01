@@ -5,7 +5,7 @@ import { State, Progress } from "@types"
 export async function StoreToast(
   state: State,
   progress: Progress,
-  message = ""
+  message = "",
 ): Promise<Toast> {
   let title = ""
   let style = Toast.Style.Animated

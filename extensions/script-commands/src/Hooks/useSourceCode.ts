@@ -42,7 +42,7 @@ export const useSourceCode: UseSourceCode = initialScriptCommand => {
 
       const result = await dataManager.fetchSourceCode(
         state.scriptCommand,
-        abort.current.signal
+        abort.current.signal,
       )
 
       if (!abort.current.signal.aborted) {

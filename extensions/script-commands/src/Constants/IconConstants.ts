@@ -20,7 +20,7 @@ interface Constants {
 
 export const IconConstants: Constants = {
   All: {
-    source: Icon.Snippets
+    source: Icon.Snippets,
   },
   ChangesDetected: {
     source: Icon.Checkmark,

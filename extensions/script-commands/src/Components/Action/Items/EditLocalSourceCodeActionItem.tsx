@@ -14,7 +14,7 @@ export function EditLocalSourceCodeActionItem({
   return (
     <Action.OpenWith
       icon={IconConstants.LocalSourceCode}
-      title="Edit Local Source Code with"
+      title="Edit Local Source Code With"
       path={path}
       onOpen={onSetup}
     />

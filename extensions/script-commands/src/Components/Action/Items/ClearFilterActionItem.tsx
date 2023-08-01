@@ -11,7 +11,7 @@ type Props = {
 export function ClearFilterActionItem({ onFilter }: Props): JSX.Element {
   return (
     <Action
-      title="Clear filter"
+      title="Clear Filter"
       icon={IconConstants.ClearFilter}
       shortcut={ShortcutConstants.ClearFilter}
       onAction={() => onFilter(null)}

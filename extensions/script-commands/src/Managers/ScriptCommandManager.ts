@@ -66,7 +66,7 @@ export class ScriptCommandManager {
   async install(scriptCommand: ScriptCommand): Promise<StateResult> {
     const commandFullPath = path.join(
       this.settings.repositoryCommandsFolderPath,
-      scriptCommand.path
+      scriptCommand.path,
     )
 
     const icons = await this.downloadIcons(scriptCommand, commandFullPath)
@@ -225,9 +225,9 @@ export class ScriptCommandManager {
 
   private async downloadIcons(
     scriptCommand: ScriptCommand,
-    commandPath: string
-  ): Promise<{ dark: FileNullable, light: FileNullable }> {
-    const icons: { dark: FileNullable, light: FileNullable } = {
+    commandPath: string,
+  ): Promise<{ dark: FileNullable; light: FileNullable }> {
+    const icons: { dark: FileNullable; light: FileNullable } = {
       dark: null,
       light: null,
     }
@@ -262,13 +262,13 @@ export class ScriptCommandManager {
       scriptCommand,
       lightIcon,
       imageFolderPath,
-      IconStyle.Light
+      IconStyle.Light,
     )
     icons.dark = await this.downloadIconFor(
       scriptCommand,
       darkIcon,
       imageFolderPath,
-      IconStyle.Dark
+      IconStyle.Dark,
     )
 
     return icons
@@ -278,7 +278,7 @@ export class ScriptCommandManager {
     scriptCommand: ScriptCommand,
     iconPath: IconPathNullable,
     imageFolderPath: string,
-    style: IconStyle
+    style: IconStyle,
   ): Promise<FileNullable> {
     if (!iconPath) {
       return null
@@ -298,7 +298,7 @@ export class ScriptCommandManager {
       const result = await this.downloadIcon(
         resource.content,
         imageFolderPath,
-        iconPath.filename
+        iconPath.filename,
       )
 
       return result
@@ -310,12 +310,12 @@ export class ScriptCommandManager {
   private async downloadIcon(
     url: string,
     imageFolderPath: string,
-    filename: string
+    filename: string,
   ): Promise<File | null> {
     const imagePath = path.join(imageFolderPath, filename)
     const linkImagePath = path.join(
       this.settings.imagesCommandsFolderPath,
-      filename
+      filename,
     )
 
     if (!existsSync(imagePath)) {
@@ -340,7 +340,7 @@ export class ScriptCommandManager {
 
   private async downloadCommand(
     scriptCommand: ScriptCommand,
-    commandPath: string
+    commandPath: string,
   ): Promise<FileNullable> {
     const filename = scriptCommand.filename
     const commandFilePath = path.join(commandPath, scriptCommand.filename)
@@ -350,7 +350,7 @@ export class ScriptCommandManager {
       : scriptCommand.identifier
     const linkCommandFilePath = path.join(
       this.settings.commandsFolderPath,
-      linkFilename
+      linkFilename,
     )
 
     if (!existsSync(commandFilePath)) {

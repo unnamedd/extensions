@@ -8,8 +8,7 @@ export const languageDisplayName: LanguageDisplayName = name => {
   let displayName = name
 
   // Hack to make the first letter uppercased
-  displayName =
-    displayName.charAt(0).toUpperCase() + displayName.slice(1)
+  displayName = displayName.charAt(0).toUpperCase() + displayName.slice(1)
 
   if (language) {
     displayName = language.displayName

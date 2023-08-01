@@ -3,12 +3,12 @@ import { State } from "@types"
 
 type KeywordsForScriptCommand = (
   scriptCommand: ScriptCommand,
-  state: State
+  state: State,
 ) => string[]
 
 export const keywordsForScriptCommand: KeywordsForScriptCommand = (
   scriptCommand,
-  state
+  state,
 ) => {
   const keywords: string[] = []
 

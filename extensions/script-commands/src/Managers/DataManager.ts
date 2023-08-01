@@ -64,7 +64,7 @@ export class DataManager {
 
     this.scriptCommandManager = new ScriptCommandManager(
       this.contentManager,
-      this.settings
+      this.settings,
     )
 
     this.mainContent = {
@@ -174,7 +174,7 @@ export class DataManager {
 
   monitorChangesFor(
     identifier: string,
-    callback: (state: State) => void
+    callback: (state: State) => void,
   ): FSWatcher | null {
     const file = this.commandFileFor(identifier)
     const state = this.stateFor(identifier)
@@ -197,7 +197,7 @@ export class DataManager {
 
   updateHashOnChangeFor(
     identifier: string,
-    onChange: () => void
+    onChange: () => void,
   ): FSWatcher | null {
     const file = this.commandFileFor(identifier)
     const state = this.stateFor(identifier)
@@ -265,7 +265,7 @@ export class DataManager {
     return object
   }
 
-  private keyPairValuesFrom(content: string): { key: string, value: string } {
+  private keyPairValuesFrom(content: string): { key: string; value: string } {
     if (!content.includes("|")) {
       content = valueForBasicFilterKind
     }
@@ -311,7 +311,7 @@ export class DataManager {
 
   fetchLanguages(): Language[] {
     return this.mainContent.languages.sort((left: Language, right: Language) =>
-      left.name > right.name ? 1 : -1
+      left.name > right.name ? 1 : -1,
     )
   }
 
@@ -381,7 +381,7 @@ export class DataManager {
         if (groupCopy.scriptCommands.length > 0) {
           groupCopy.scriptCommands.sort(
             (left: ScriptCommand, right: ScriptCommand) =>
-              left.title > right.title ? 1 : -1
+              left.title > right.title ? 1 : -1,
           )
 
           data.totalScriptCommands += groupCopy.scriptCommands.length
@@ -390,7 +390,7 @@ export class DataManager {
       })
 
       groups.sort((left: CompactGroup, right: CompactGroup) =>
-        left.title > right.title ? 1 : -1
+        left.title > right.title ? 1 : -1,
       )
 
       data.groups = groups
@@ -435,7 +435,7 @@ export class DataManager {
 
   async fetchSourceCode(
     scriptCommand: ScriptCommand,
-    signal: AbortSignal
+    signal: AbortSignal,
   ): Promise<string> {
     return fetchSourceCode(scriptCommand, signal)
   }
@@ -445,7 +445,7 @@ export class DataManager {
   }
 
   async installScriptCommand(
-    scriptCommand: ScriptCommand
+    scriptCommand: ScriptCommand,
   ): Promise<StateResult> {
     const result = await this.scriptCommandManager.install(scriptCommand)
 
@@ -461,7 +461,7 @@ export class DataManager {
 
   async installPackage(
     group: CompactGroup,
-    callback: (process: Process) => void
+    callback: (process: Process) => void,
   ): Promise<Progress> {
     let progress = Progress.InProgress
     let currentInstall = 1
@@ -508,7 +508,7 @@ export class DataManager {
   }
 
   async deleteScriptCommand(
-    scriptCommand: ScriptCommand
+    scriptCommand: ScriptCommand,
   ): Promise<StateResult> {
     const result = await this.scriptCommandManager.delete(scriptCommand)
 
@@ -520,7 +520,7 @@ export class DataManager {
   }
 
   async confirmScriptCommandSetupFor(
-    scriptCommand: ScriptCommand
+    scriptCommand: ScriptCommand,
   ): Promise<StateResult> {
     const result = this.scriptCommandManager.finishSetup(scriptCommand)
 
@@ -534,7 +534,7 @@ export class DataManager {
 
 type AsyncForLoop<T> = (
   items: T[],
-  callback: (item: T) => Promise<void>
+  callback: (item: T) => Promise<void>,
 ) => Promise<void>
 
 type AsyncLoopCommand = AsyncForLoop<ScriptCommand>

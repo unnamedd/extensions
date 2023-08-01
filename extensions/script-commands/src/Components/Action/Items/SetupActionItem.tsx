@@ -11,7 +11,7 @@ export function SetupActionItem({ path, onSetup }: Props): JSX.Element {
   return (
     <Action.OpenWith
       icon={IconConstants.Setup}
-      title="Configure Script Command with"
+      title="Configure Script Command With"
       path={path}
       onOpen={onSetup}
     />

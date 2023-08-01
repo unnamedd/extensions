@@ -32,7 +32,7 @@ export const iconLightURLFor = (scriptCommand: ScriptCommand) =>
 
 const iconURL = (
   scriptCommand: ScriptCommand,
-  style: IconStyle
+  style: IconStyle,
 ): IconResult | null => {
   if (!scriptCommand.icon) {
     return null
