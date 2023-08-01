@@ -1,12 +1,11 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "script-commands",
-  "title": "Script Commands Store – Find and manage your Raycast Script Commands",
-  "description": "Your new way to manage Script Commands without having to deal with GitHub.",
+  "title": "Script Commands Store",
+  "description": "Find and manage your Raycast Script Commands.",
   "icon": "store-icon.png",
   "author": "tholanda",
   "categories": [
-    "Other",
     "Productivity",
     "Applications"
   ],
@@ -88,18 +87,16 @@
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.39.1",
+    "@raycast/api": "^1.56.1",
     "moment": "^2.29.1",
     "nanoid": "^3.3.1",
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
     "@types/download": "^8.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
     "download": "^8.0.0",
     "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
     "react-devtools": "^4.21.0",
     "typescript": "^4.4.3"
   },
