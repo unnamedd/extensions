@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid"
 import { List } from "@raycast/api"
 
-import { TextConstants } from "@constants"
+import { IconConstants, TextConstants } from "@constants"
 import { valueForBasicFilterKind } from "@helpers"
 
 type Props = {
@@ -23,6 +23,7 @@ export function AllScriptCommandsDropdownSection({
         key={nanoid()}
         title={TextConstants.Filter.All + totalDescription}
         value={valueForBasicFilterKind}
+        icon={IconConstants.All}
       />
     </List.Dropdown.Section>
   )

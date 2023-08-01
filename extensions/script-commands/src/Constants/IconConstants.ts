@@ -1,6 +1,7 @@
 import { Color, Icon, Image } from "@raycast/api"
 
 interface Constants {
+  All: Image.ImageLike
   ChangesDetected: Image.ImageLike
   ClearFilter: Image.ImageLike
   ConfirmChange: Image.ImageLike
@@ -18,6 +19,9 @@ interface Constants {
 }
 
 export const IconConstants: Constants = {
+  All: {
+    source: Icon.Snippets
+  },
   ChangesDetected: {
     source: Icon.Checkmark,
     tintColor: Color.Orange,

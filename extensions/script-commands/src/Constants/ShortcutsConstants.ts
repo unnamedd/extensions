@@ -29,7 +29,7 @@ export const ShortcutConstants: Constants = {
     key: "x",
   },
   ViewReadmeInBrowser: {
-    modifiers: ["cmd"],
+    modifiers: ["cmd", "ctrl"],
     key: "o",
   },
   ViewReadme: {
