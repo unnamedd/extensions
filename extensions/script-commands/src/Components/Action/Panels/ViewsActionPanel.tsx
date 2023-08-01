@@ -19,6 +19,10 @@ export function ViewsActionPanel({ url, scriptCommand }: Props): JSX.Element {
         url={url}
         shortcut={ShortcutConstants.ViewSourceCodeInBrowser}
       />
+      <Action.CopyToClipboard
+        title="Copy Script Command URL"
+        content={url}
+      />
     </ActionPanel.Section>
   )
 }
