@@ -5,6 +5,11 @@
   "description": "Find and manage your Raycast Script Commands.",
   "icon": "store-icon.png",
   "author": "tholanda",
+  "keywords": [
+    "script commands",
+    "scripts",
+    "commands"
+  ],
   "categories": [
     "Productivity",
     "Applications"
@@ -23,19 +28,20 @@
     {
       "name": "folderPath",
       "description": "Folder where your Script Commands will be installed. In case the folder doesn't exist, we will create it for you.",
-      "title": "Folder Path",
+      "title": "Folder path to install Script Commands",
       "required": true,
       "type": "textfield",
       "default": "~/raycast/script-commands",
       "placeholder": "~/raycast/script-commands"
     },
     {
-      "name": "addedFolderToRaycast",
+      "name": "showSidebarDetails",
       "type": "checkbox",
-      "required": true,
-      "label": "I will manually add the Folder Path to Raycast Preferences",
-      "default": false,
-      "description": "I understood that I need to add the folder defined in the Folder Path to Raycast Preferences > Extensions > Scripts > Script Commands > Add Directories."
+      "required": false,
+      "title": "Root List",
+      "label": "Show Script Commands' metatags in the sidebar",
+      "default": true,
+      "description": "Show extra information about the Script Command selected in the sidebar panel"
     },
     {
       "name": "filterDropdownList",
@@ -56,18 +62,10 @@
       "default": "only-categories"
     },
     {
-      "name": "showSidebarDetails",
-      "type": "checkbox",
-      "required": false,
-      "label": "Show Script Commands metatags in sidebar",
-      "default": true,
-      "description": "Show extra information about the Script Command selected in the sidebar panel"
-    },
-    {
       "name": "authorsListItemWidget",
       "type": "dropdown",
       "required": false,
-      "title": "Show Author(s) in List",
+      "title": "Show Author in List",
       "data": [
         {
           "title": "Only Name",
@@ -83,7 +81,7 @@
         }
       ],
       "description": "Select whether you want to show only names, avatars or avatar and name (this configuration has no effect in case the details sidebar is visible)",
-      "default": "only-categories"
+      "default": "avatar-and-name"
     }
   ],
   "dependencies": {
