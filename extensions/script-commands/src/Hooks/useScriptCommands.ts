@@ -27,7 +27,7 @@ type UserScriptCommandsProps = {
 type UseScriptCommands = () => {
   props: UserScriptCommandsProps
   setFilter: (filter: Filter) => void
-  setSelection: (identifier?: string) => void
+  setSelection: (identifier: string | null) => void
   installPackage: (group: CompactGroup) => void
 }
 
@@ -45,9 +45,9 @@ export const useScriptCommands: UseScriptCommands = () => {
     },
   })
 
-  const setSelection = async (identifier?: string) => {
+  const setSelection = async (identifier: string | null) => {
     if (!identifier) {
-      return
+      return null
     }
 
     const commandState = dataManager.stateFor(identifier)
@@ -67,7 +67,7 @@ export const useScriptCommands: UseScriptCommands = () => {
       PackageToast(
         Progress.InProgress,
         group.title,
-        `Script Command: ${process.current} of ${process.total}...`
+        `Script Command: ${process.current} of ${process.total}...`,
       )
 
       if (process.progress == Progress.Finished) {
